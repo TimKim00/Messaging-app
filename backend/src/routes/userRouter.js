@@ -1,6 +1,7 @@
 const express = require("express");
 const router = express.Router();
 const userController = require('../controllers/userController');
+const profileController = require("../controllers/profileController");
 const validateSession = require("../middlewares/auth");
 
 // Handles /users/ 
@@ -16,10 +17,10 @@ router.post('/friends/:userId', validateSession, userController.addFriend);
 // DELETE request to remove a user from the user's friend list.
 router.delete('/friends/:userId', validateSession, userController.removeFriend);
 
-// // GET request to get the user's profile information
-// router.get('profile/:userId', validateSession, userController.getProfile);
+// GET request to get the user's profile information
+router.get('/profile/:userId', validateSession, profileController.getProfile);
 
-// // PATCH request to modify the user's profile information.
-// router.patch('profile/:userId', validateSession, userController.updateProfile);
+// PATCH request to modify the user's profile information.
+router.patch('/profile/:userId', validateSession, profileController.updateProfile);
 
 module.exports = router;
