@@ -3,8 +3,8 @@ const mongoose = require("mongoose");
 const Schema = mongoose.Schema;
 
 const MessageSchema = new Schema({
-	userId: { type: Schema.Type.ObjectId, required: true, ref: "User" },
-	roomId: { type: Schema.Type.ObjectId, required: true, ref: "Room"}, 
+	userId: { type: Schema.Types.ObjectId, required: true, ref: "User" },
+	roomId: { type: Schema.Types.ObjectId, required: true, ref: "Room"}, 
 	message: { type: String, required: true },
 	isImage: { type: Bool, default: false},
 	createTime: { type: Date },

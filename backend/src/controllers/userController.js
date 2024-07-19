@@ -88,7 +88,29 @@ exports.removeFriend = asyncHandler(async (req, res, next) => {
 });
 
 // Gets the profile of the user.
-exports.getProfile = null;
+exports.getProfile = asyncHandler(async (req, res, next) => {
+  const userId = req.params.userId;
+  const user = await User.findById(userId).exec();
+
+  if (!user) {
+    return res.status(404).json({ message: "No user found." });
+  }
+
+  return res.status(200).json({ user: filterPrivateInfo(user) });
+});
 
 // updates a user profile.
-exports.updateProfile = null;
+exports.updateProfile = [
+  validator.checkProfileInfo(),
+  
+  asyncHandler(async (req, res, next) => {
+    const userId = req.params.userId;
+    const user = await User.findById(userId).exec();
+
+    if (!user) {
+      return res.status(404).json({ message: "No user found." });
+    }
+
+    return res.status(200).json({ user: filterPrivateInfo(user) });
+  }),
+];

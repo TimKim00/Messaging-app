@@ -17,6 +17,25 @@ exports.checkUserCredentials = () => {
   ];
 };
 
+exports.checkProfileInfo = () => {
+    return [
+        body("profileInfo")
+        .notEmpty()
+        .withMessage("No profile information.")
+        .bail(),
+    
+        body("profileInfo.userId")
+        .isMongoId()
+        .withMessage("Invalid user")
+        .escape(),
+    
+        body("profileInfo.email")
+        .isEmail()
+        .withMessage("Invalid email")
+        .escape()
+    ]
+}
+
 exports.checkPagination = () => {
     return (
         body("pageNum")

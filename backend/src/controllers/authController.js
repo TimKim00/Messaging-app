@@ -1,5 +1,6 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/user");
+const Profile = require("../models/profile");
 const passport = require("../configs/passport.config");
 const validator = require("../middlewares/validator");
 const { validationResult } = require("express-validator");
@@ -48,11 +49,22 @@ exports.register = [
       h_password: hashPassword(password),
       rooms: [],
       friends: [],
+      profileId: null,
+    });
+
+
+    // Create a new profile instance.
+    const profile = new Profile({
+      userId: user._id,
+      displayName: username,
       email: "",
       bio: "",
       profilePicture: "",
-    });
+    })
 
+    user.profileId = profile._id;
+
+    await profile.save();
     await user.save();
 
     req.logIn(user, (err) => {
