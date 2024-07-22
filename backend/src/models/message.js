@@ -6,9 +6,9 @@ const MessageSchema = new Schema({
 	userId: { type: Schema.Types.ObjectId, required: true, ref: "User" },
 	roomId: { type: Schema.Types.ObjectId, required: true, ref: "Room"}, 
 	message: { type: String, required: true },
-	isImage: { type: Bool, default: false},
+	isImage: { type: Boolean, default: false},
 	createTime: { type: Date },
-	flagged: { type: Bool, default: false},
+	flagged: { type: Boolean, default: false},
 }) 
 
 module.exports = mongoose.model("Message", MessageSchema);

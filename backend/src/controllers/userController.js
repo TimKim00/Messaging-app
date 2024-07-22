@@ -1,9 +1,7 @@
 const asyncHandler = require("express-async-handler");
 const User = require("../models/user");
 const Room = require("../models/room");
-const validateSession = require("../middlewares/auth");
 const validator = require("../middlewares/validator");
-const { validationResult } = require("express-validator");
 const { filterPrivateInfo } = require("../utils");
 
 // Retreives user information. req.body should have "pageNum" and

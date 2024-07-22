@@ -14,6 +14,7 @@ const errorHandler = require("./src/middlewares/errorHandler");
 const indexRouter = require("./src/routes/indexRouter");
 const userRouter = require("./src/routes/userRouter");
 const authRouter = require("./src/routes/authRouter");
+const chatRouter = require("./src/routes/chatRouter");
 
 const app = express();
 
@@ -42,6 +43,7 @@ app.use(passport.session());
 app.use('/', indexRouter);
 app.use('/', authRouter);
 app.use('/users', userRouter);
+app.use('/chat', chatRouter);
 
 // Dev test routers
 app.get('/auth-status', (req, res) => {
