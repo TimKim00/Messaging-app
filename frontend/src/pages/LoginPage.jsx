@@ -1,23 +1,77 @@
 import { useState } from "react";
 import useLogin from "../hooks/useLogin";
+import { Link } from "react-router-dom";
+import Logo from "../assets/logo.png";
 
 const LoginPage = () => {
   console.log("Hi");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const {login, isLoading, error} = useLogin();
+  const { login, isLoading, error } = useLogin();
 
-  const handleLoginSubmit = async (e)  => {
+  const handleLoginSubmit = async (e) => {
     e.preventDefault();
 
     await login(username, password);
   };
 
   return (
-    <>
-   
-    </>
-  )
+    <main className="min-h-screen flex items-center justify-center bg-gray-100">
+      {/* Login */}
+      <section className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
+        {/* Logo and Login Message */}
+        <div className="text-center mb-8">
+          <img src={Logo} alt="logo" className="mx-auto h-24 w-auto" />
+          <h1 className="text-2xl font-bold">
+            <span>Log into Fweechat</span>
+          </h1>
+        </div>
+        {/* Forms */}
+        <form onSubmit={handleLoginSubmit}>
+          <div id="username-field" className="mb-4">
+            <label
+              htmlFor="username"
+              className="block text-sm font-medium text-gray-700"
+            >
+              USERNAME
+            </label>
+            <div className="mt-1">
+              <input
+                type="text"
+                placeholder="exampleUser"
+                name="username"
+                id="username"
+                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              />
+            </div>
+          </div>
+          <div id="password-field" className="mb-6">
+            <label
+              htmlFor="password"
+              className="block text-sm font-medium text-gray-700"
+            >
+              PASSWORD
+            </label>
+            <div className="mt-1">
+              <input
+                type="password"
+                placeholder="Password"
+                name="password"
+                id="password"
+                className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+              />
+            </div>
+          </div>
+          <button
+            type="submit"
+            className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
+          >
+            <span>Log In</span>
+          </button>
+        </form>
+      </section>
+    </main>
+  );
 };
 
 export default LoginPage;
