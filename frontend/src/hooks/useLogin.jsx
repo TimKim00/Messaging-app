@@ -1,18 +1,20 @@
 import { useContext, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
-import { getPath } from "../utils";
-import { redirect } from "react-router-dom";
+import { fetchPath } from "../utils";
+import { useNavigate } from "react-router-dom";
 
 const useLogin = () => {
   const { dispatch } = useContext(UserContext);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
+  const navigate = useNavigate();
+
   const login = async (username, password) => {
     setIsLoading(true);
     setError(null);
 
-    const response = await fetch(getPath("login", true), {
+    const response = await fetch(fetchPath("/login"), {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -24,16 +26,19 @@ const useLogin = () => {
 
     setIsLoading(false);
     if (!response.ok) {
-      setError(json.error());
+      setError(json.message);
       dispatch({ type: "AUTH_INVALID" });
     } else {
-      localStorage.setItem("user", JSON.stringify(json));
-      dispatch({ type: "AUTH_VALID", payload: json });
+      const userObject = JSON.stringify(json.user);
+      localStorage.setItem("user", userObject);
+      console.log(localStorage.getItem("user"));
+      dispatch({ type: "AUTH_VALID", payload: userObject });
+      setError(null);
 
-      redirect("/");
+      navigate('/');
     }
   };
-  return { login, error, isLoading };
+  return { error, login, isLoading, setIsLoading, setError };
 };
 
 export default useLogin;

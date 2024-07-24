@@ -1,19 +1,35 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import useLogin from "../hooks/useLogin";
-import { Link } from "react-router-dom";
 import Logo from "../assets/logo.png";
+import { RotatingLines } from "react-loader-spinner";
+import Error from "../components/Error";
 
 const LoginPage = () => {
-  console.log("Hi");
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { login, isLoading, error } = useLogin();
+  const { error, login, isLoading, setIsLoading, setError } = useLogin();
 
   const handleLoginSubmit = async (e) => {
     e.preventDefault();
 
     await login(username, password);
   };
+
+  useEffect(() => {
+    let timeout;
+    if (isLoading) {
+      // Set a timeout to trigger an error if loading takes too long
+      timeout = setTimeout(() => {
+        setError("Login timed out. Please try again.");
+        setIsLoading(false);
+      }, 5000); // 10 seconds timeout
+    }
+
+    // Cleanup the timeout if isLoading changes or the component unmounts
+    return () => {
+      clearTimeout(timeout);
+    };
+  }, [isLoading, setError, setIsLoading]); // add setError and setIsLoading for esLinter.
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-gray-100">
@@ -38,9 +54,10 @@ const LoginPage = () => {
             <div className="mt-1">
               <input
                 type="text"
-                placeholder="exampleUser"
+                placeholder="Your username"
                 name="username"
                 id="username"
+                onChange={(e) => setUsername(e.target.value)}
                 className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
             </div>
@@ -58,6 +75,7 @@ const LoginPage = () => {
                 placeholder="Password"
                 name="password"
                 id="password"
+                onChange={(e) => setPassword(e.target.value)}
                 className="block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm placeholder-gray-400 focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
               />
             </div>
@@ -66,8 +84,23 @@ const LoginPage = () => {
             type="submit"
             className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
-            <span>Log In</span>
+            {isLoading ? (
+              <RotatingLines
+                visible={true}
+                height="16"
+                width="16"
+                strokeColor="white"
+                strokeWidth="5"
+                animationDuration="0.75"
+                ariaLabel="rotating-lines-loading"
+                wrapperStyle={{}}
+                wrapperClass=""
+              />
+            ) : (
+              <span>Log In</span>
+            )}
           </button>
+          {error ? <Error error={error} /> : <></>}
         </form>
       </section>
     </main>

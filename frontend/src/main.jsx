@@ -6,6 +6,7 @@ import "./index.css";
 
 import Root from "./pages/Root.jsx";
 import Chatroom from "./pages/Chatroom.jsx";
+import Homepage from "./pages/Homepage.jsx";
 import LoginPage from "./pages/LoginPage.jsx";
 
 const router = createBrowserRouter(
@@ -15,8 +16,8 @@ const router = createBrowserRouter(
       element: <Root />,
       children: [
         {
-          path: "/rooms",
-          element: <Chatroom />,
+          path: "/",
+          element: <Homepage />,
         },
       ],
     },
