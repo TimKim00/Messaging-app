@@ -56,7 +56,7 @@ exports.addFriend = asyncHandler(async (req, res, next) => {
   req.user = updatedUser; // Manually update req.user
   req.session.passport.user = updatedUser;
 
-  return res.status(200).json({ user: updatedUser });
+  return res.status(200).json({ user: filterPrivateInfo(updatedUser) });
 });
 
 // Remove the friend from the session user's frined list.
@@ -82,7 +82,7 @@ exports.removeFriend = asyncHandler(async (req, res, next) => {
   req.user = updatedUser; // Manually update req.user
   req.session.passport.user = updatedUser;
 
-  return res.status(200).json({ user: updatedUser });
+  return res.status(200).json({ user: filterPrivateInfo(updatedUser) });
 });
 
 // Gets the profile of the user.

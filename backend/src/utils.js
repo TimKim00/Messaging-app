@@ -7,7 +7,7 @@ const bcrypt = require("bcryptjs");
  */
 function filterPrivateInfo(user) {
     // Define the list of private fields to be removed
-    const privateFields = ['h_password', 'rooms', 'email'];
+    const privateFields = ['h_password', 'email'];
 
     // Create a new object to store the filtered user data
     let filteredUser = {};

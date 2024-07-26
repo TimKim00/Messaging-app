@@ -23,14 +23,15 @@ passport.use(
 
 passport.serializeUser((user, cb) => {
   process.nextTick(() => {
-    cb(null, filterPrivateInfo(user));
+    user._doc = filterPrivateInfo(user._doc)
+    cb(null, user);
   });
 });
 
 passport.deserializeUser((user, cb) => {
-    process.nextTick(() => {
-        cb(null, user);
-    });
+  process.nextTick(() => {
+    cb(null, user);
+  });
 });
 
 module.exports = passport;

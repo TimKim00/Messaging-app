@@ -1,12 +1,8 @@
 const validateSession = (req, res, next) => {
-    if (!req.isAuthenticated()) {
-        const err = new Error("Authentication invalid");
-        err.status = 401;
-        next(err);
-    }
-    next();
-}
+  if (req.isAuthenticated()) {
+    return next();
+  }
+  res.status(401).json({ message: "Authentication invalid" });
+};
 
 module.exports = validateSession;
-
-

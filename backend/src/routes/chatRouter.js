@@ -9,6 +9,9 @@ router.get('/', validateSession, chatController.getAllChatrooms);
 // POST request to create a chatroom
 router.post('/', validateSession, chatController.createChatroom);
 
+// POST request to get the specific message information
+router.post('/getMessages/', chatController.getMessages);
+
 // GET request to retreive all chat room information.
 router.get('/:chatId', validateSession, chatController.getChatroom);
 

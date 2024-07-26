@@ -28,8 +28,6 @@ exports.updateProfile = [
       delete profileInfo.userId;
     }
 
-    console.log(userId, profileInfo);
-
     if (userId != req.user._id) {
       // Cannot update someone else's profile.
       return res.status(403).json({ message: "Access Denied." });

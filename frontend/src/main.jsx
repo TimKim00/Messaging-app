@@ -5,9 +5,9 @@ import UserContextProvider from "./contexts/UserContext.jsx";
 import "./index.css";
 
 import Root from "./pages/Root.jsx";
-import Chatroom from "./pages/Chatroom.jsx";
-import Homepage from "./pages/Homepage.jsx";
-import LoginPage from "./pages/LoginPage.jsx";
+import Homepage from "./pages/Chat/Homepage.jsx";
+import LoginPage from "./pages/Auth/LoginPage.jsx";
+import SignupPage from "./pages/Auth/SignupPage.jsx";
 
 const router = createBrowserRouter(
   [
@@ -25,6 +25,10 @@ const router = createBrowserRouter(
       path: "/login",
       element: <LoginPage />,
     },
+    {
+      path: "/register",
+      element: <SignupPage />
+    }
   ]
   // ,{ basename: "/fweechat" }
 );

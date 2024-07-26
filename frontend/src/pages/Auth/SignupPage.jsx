@@ -1,49 +1,37 @@
-import { useState, useEffect } from "react";
-import useLogin from "../hooks/useLogin";
-import Logo from "../assets/logo.png";
+import { useState } from "react";
+import Logo from "../../assets/logo.svg";
 import { RotatingLines } from "react-loader-spinner";
-import Error from "../components/Error";
+import Error from "../../components/Error";
+import useSignup from "../../hooks/useSignup";
+import { Link } from "react-router-dom";
 
-const LoginPage = () => {
+const SignupPage = () => {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const { error, login, isLoading, setIsLoading, setError } = useLogin();
+  const { error, signup, isLoading, setIsLoading, setError } = useSignup();
 
-  const handleLoginSubmit = async (e) => {
+  const handleSignupSubmit = async (e) => {
     e.preventDefault();
+    setIsLoading(true);
+    setError(null);
 
-    await login(username, password);
+    // Add your signup logic here
+    await signup(username, password);
   };
-
-  useEffect(() => {
-    let timeout;
-    if (isLoading) {
-      // Set a timeout to trigger an error if loading takes too long
-      timeout = setTimeout(() => {
-        setError("Login timed out. Please try again.");
-        setIsLoading(false);
-      }, 5000); // 10 seconds timeout
-    }
-
-    // Cleanup the timeout if isLoading changes or the component unmounts
-    return () => {
-      clearTimeout(timeout);
-    };
-  }, [isLoading, setError, setIsLoading]); // add setError and setIsLoading for esLinter.
 
   return (
     <main className="min-h-screen flex items-center justify-center bg-gray-100">
-      {/* Login */}
+      {/* Signup */}
       <section className="w-full max-w-md p-8 bg-white rounded-lg shadow-md">
-        {/* Logo and Login Message */}
+        {/* Logo and Signup Message */}
         <div className="text-center mb-8">
           <img src={Logo} alt="logo" className="mx-auto h-24 w-auto" />
           <h1 className="text-2xl font-bold">
-            <span>Log into Fweechat</span>
+            <span>Create an Account</span>
           </h1>
         </div>
         {/* Forms */}
-        <form onSubmit={handleLoginSubmit}>
+        <form onSubmit={handleSignupSubmit}>
           <div id="username-field" className="mb-4">
             <label
               htmlFor="username"
@@ -97,14 +85,20 @@ const LoginPage = () => {
                 wrapperClass=""
               />
             ) : (
-              <span>Log In</span>
+              <span>Sign Up</span>
             )}
           </button>
           {error ? <Error error={error} /> : <></>}
         </form>
+        <div className="mt-6 text-center">
+          <p className="text-sm text-gray-600">
+            Already have an account?{" "}
+            <Link to="/login" className="font-medium text-indigo-600 hover:text-indigo-500"> Login </Link>
+          </p>
+        </div>
       </section>
     </main>
   );
 };
 
-export default LoginPage;
+export default SignupPage;

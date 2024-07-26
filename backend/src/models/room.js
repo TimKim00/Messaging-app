@@ -13,6 +13,7 @@ const RoomSchema = new Schema({
 	isGroup: {type: Boolean, default: false },
 	createTime: { type: Date, required: true , default: Date.now()},
 	updateTime: { type: Date, required: true , default: Date.now()},
+	roomImage: {type: String, default: ""},
 });
 
 // Method to compare the given password with the database hash

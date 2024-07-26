@@ -4,16 +4,30 @@ const Room = require("../models/room");
 const Message = require("../models/message");
 const validator = require("../middlewares/validator");
 const { validationResult } = require("express-validator");
+const { filterPrivateInfo } = require("../utils");
 
 exports.getAllChatrooms = asyncHandler(async (req, res, next) => {
   const [numRooms, allRooms] = await Promise.all([
-    Room.countDocuments({}).exec(),
-    Room.find().exec(),
+    Room.countDocuments({ users: req.user._id }).exec(),
+    Room.find({ users: req.user._id })
+      .populate("recentMessage")
+      .populate("users")
+      .exec(),
   ]);
+
+  const filteredRooms = allRooms.map((room) => {
+    // Convert room document to plain JavaScript object
+    const plainRoom = room.toObject();
+
+    // Filter users' private information
+    plainRoom.users = plainRoom.users.map((user) => filterPrivateInfo(user));
+
+    return plainRoom;
+  });
 
   return res.json({
     roomCount: numRooms,
-    allChatrooms: allRooms,
+    allChatrooms: filteredRooms,
   });
 });
 
@@ -42,13 +56,21 @@ exports.createChatroom = [
 
 exports.getChatroom = asyncHandler(async (req, res, next) => {
   const chatId = req.params.chatId;
+  const query = { _id: chatId };
+  const chatRoom = await Room.findOne(query).exec();
 
-  const chatRoom = await Room.findOne({ _id: chatId }).exec();
   if (!chatRoom) {
     return res.status(404).json("No room found.");
   }
 
   return res.status(200).json({ room: chatRoom });
+});
+
+exports.getMessages = asyncHandler(async (req, res, next) => {
+  const { messages } = req.body;
+  const messageDocs = await Message.find({ _id: { $in: messages } }).exec();
+
+  return res.status(200).json({ messageDocs: messageDocs });
 });
 
 exports.sendMessage = [
@@ -75,6 +97,9 @@ exports.sendMessage = [
 
     roomInfo.messages.unshift(message._id);
     await message.save();
+
+    roomInfo.recentMessage = message._id;
+    roomInfo.updateTime = new Date();
     await roomInfo.save();
 
     return res.status(200).json({

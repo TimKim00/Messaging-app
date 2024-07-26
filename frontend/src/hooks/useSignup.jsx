@@ -3,18 +3,18 @@ import { UserContext } from "../contexts/UserContext";
 import { fetchPath, fetchWithCredentials } from "../utils";
 import { useNavigate } from "react-router-dom";
 
-const useLogin = () => {
+const useSignup = () => {
   const { dispatch } = useContext(UserContext);
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const navigate = useNavigate();
 
-  const login = async (username, password) => {
+  const signup = async (username, password) => {
     setIsLoading(true);
     setError(null);
 
-    const response = await fetchWithCredentials(fetchPath("/login"), {
+    const response = await fetchWithCredentials(fetchPath("/register"), {
       method: "POST",
       body: JSON.stringify({ username, password }),
     });
@@ -22,19 +22,22 @@ const useLogin = () => {
     const json = await response.json();
 
     setIsLoading(false);
-    if (!response.ok) {
-      setError(json.message);
-      dispatch({ type: "AUTH_INVALID" });
-    } else {
+    if (response.ok) {
       const userObject = JSON.stringify(json.user);
       localStorage.setItem("user", userObject);
       dispatch({ type: "AUTH_VALID", payload: userObject });
       setError(null);
 
       navigate("/");
+    } else {
+        if (json.errors) {
+            setError("Invalid credentials provided.");
+        } else {
+            setError(json.error); // Change
+        }
     }
   };
-  return { error, login, isLoading, setIsLoading, setError };
+  return { error, signup, isLoading, setIsLoading, setError };
 };
 
-export default useLogin;
+export default useSignup;

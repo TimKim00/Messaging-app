@@ -4,27 +4,28 @@ const Profile = require("../models/profile");
 const passport = require("../configs/passport.config");
 const validator = require("../middlewares/validator");
 const { validationResult } = require("express-validator");
-const { hashPassword } = require("../utils");
+const { filterPrivateInfo, hashPassword } = require("../utils");
 
 exports.login = (req, res, next) => {
-    passport.authenticate("local", (err, user, info) => {
+  passport.authenticate("local", (err, user, info) => {
+    if (err) {
+      return next(err);
+    }
+    if (!user) {
+      return res.status(401).json({ message: "Invalid credentials" });
+    }
+    req.logIn(user, (err) => {
       if (err) {
         return next(err);
       }
-      if (!user) {
-        return res.status(401).json({ message: "Invalid credentials" });
-      }
-      req.logIn(user, (err) => {
-        if (err) {
-          return next(err);
-        }
-        return res.json({
-          message: "Login successful",
-          user: req.user,
-          authenticated: req.isAuthenticated(),
-        });
+
+      return res.json({
+        message: "Login successful",
+        user: req.user,
+        authenticated: req.isAuthenticated(),
       });
-    })(req, res, next);
+    });
+  })(req, res, next);
 };
 
 exports.register = [
@@ -52,7 +53,6 @@ exports.register = [
       profileId: null,
     });
 
-
     // Create a new profile instance.
     const profile = new Profile({
       userId: user._id,
@@ -60,7 +60,7 @@ exports.register = [
       email: "",
       bio: "",
       profilePicture: "",
-    })
+    });
 
     user.profileId = profile._id;
 
@@ -73,7 +73,7 @@ exports.register = [
       }
       return res.json({
         message: "Account successfully created",
-        user: req.user,
+        user: filterPrivateInfo(req.user),
         authenticated: req.isAuthenticated(),
       });
     });

@@ -6,6 +6,8 @@ const passport = require("./src/configs/passport.config");
 const { createServer } = require("node:http");
 const { Server } = require("socket.io");
 
+const FRONTEND_ADDRESS = "http://localhost:5173";
+
 const app = express();
 
 // Config files
@@ -15,7 +17,7 @@ const connectDB = require("./src/configs/db.config");
 const errorHandler = require("./src/middlewares/errorHandler");
 const server = createServer(app);
 const io = new Server(server, {
-  cors: { origin: "*" },
+  cors: { origin: FRONTEND_ADDRESS, credentials: true },
 });
 
 // Routers
@@ -25,7 +27,7 @@ const authRouter = require("./src/routes/authRouter");
 const chatRouter = require("./src/routes/chatRouter");
 
 // Middleware functions
-app.use(cors());
+app.use(cors({ origin: FRONTEND_ADDRESS, credentials: true }));
 app.use(express.json({ limit: "50mb" }));
 app.use(express.urlencoded({ extended: false }));
 
@@ -40,7 +42,12 @@ app.use(
     secret: process.env.SESSION_SECRET || "secret-key",
     resave: false,
     saveUninitialized: false,
-    cookie: { maxAge: 1000 * 60 * 60, secure: false }, // 1 hour
+    cookie: {
+      maxAge: 1000 * 60 * 60,  // 1 hour
+      secure: false,
+      httpOnly: true,
+      sameSite: "lax",
+    },
   })
 );
 
@@ -104,7 +111,6 @@ io.on("connection", (socket) => {
     io.emit("getUsers", users);
   });
 });
-
 
 // Run server
 const PORT = process.env.PORT || 3000;
