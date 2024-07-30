@@ -2,6 +2,7 @@ import { useContext, useState } from "react";
 import { UserContext } from "../contexts/UserContext";
 import { fetchPath } from "../utils";
 import { useNavigate } from "react-router-dom";
+import { socket } from "../socket";
 
 const useLogout = () => {
   const { dispatch } = useContext(UserContext);
@@ -25,10 +26,13 @@ const useLogout = () => {
       setError(json.message);
     } else {
       localStorage.removeItem("user");
+      socket.disconnect();
+      
       dispatch({ type: "AUTH_LOGOUT" });
       setError(null);
 
       navigate("/login");
+      navigate(0);
     }
   };
   return { error, logout};

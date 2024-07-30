@@ -29,6 +29,7 @@ const useSignup = () => {
       setError(null);
 
       navigate("/");
+      navigate(0);
     } else {
         if (json.errors) {
             setError("Invalid credentials provided.");

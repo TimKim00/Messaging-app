@@ -12,6 +12,7 @@ exports.getAllChatrooms = asyncHandler(async (req, res, next) => {
     Room.find({ users: req.user._id })
       .populate("recentMessage")
       .populate("users")
+      .sort({updateTime: -1})
       .exec(),
   ]);
 
@@ -103,7 +104,7 @@ exports.sendMessage = [
     await roomInfo.save();
 
     return res.status(200).json({
-      message: message,
+      messageInfo: message,
       roomInfo: roomInfo,
       message: "Successfully added a message.",
     });

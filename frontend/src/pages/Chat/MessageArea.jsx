@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
 import { RotatingLines } from "react-loader-spinner";
 import Error from "../../components/Error";
@@ -7,11 +7,14 @@ import useFetchMessages from "../../hooks/useFetchMessages";
 import MessageDisplay from "../../components/MessageDisplay";
 import SendMessage from "../../components/sendMessage";
 import { groupMessages } from "../../utils";
+import { socket } from "../../socket";
 
 export default function MessageArea({ error, chatrooms, activeChat }) {
   const [chatroom, setChatroom] = useState(null);
   const { mError, fetchChatInfo, mLoading, messages, setMessages } =
     useFetchMessages();
+
+  const messageEndRef = useRef(null);
 
   useEffect(() => {
     const setChatInfo = () => {
@@ -32,7 +35,20 @@ export default function MessageArea({ error, chatrooms, activeChat }) {
       fetchChatInfo(chatroom.messages);
     }
   }, [chatroom]);
-  
+
+  useEffect(() => {
+    messageEndRef.current?.scrollIntoView({ behavior: "smooth" });
+  }, [messages]);
+
+
+  useEffect(() => {
+    socket.on('receiveMessage', (message) => {
+      console.log(message);
+      setMessages((prevState) => [...prevState, message.content]);
+    })
+  }, []);
+
+
   return (
     <section className="h-screen bg-blue-100 shadow-lg shadow-neutral-300">
       {!error && (
@@ -67,13 +83,18 @@ export default function MessageArea({ error, chatrooms, activeChat }) {
                       <MessageDisplay
                         key={messageGroup[0]._id}
                         messages={messageGroup}
+                        setMessages={setMessages}
                         users={chatroom.users}
                       />
                     ))
                   )}
+
+                  <div ref={messageEndRef}></div>
                 </div>
                 {/* Send messages */}
-                <SendMessage roomId={chatroom._id} />
+                <SendMessage
+                  roomId={chatroom._id}
+                />
               </>
             )}
           </div>
@@ -81,7 +102,6 @@ export default function MessageArea({ error, chatrooms, activeChat }) {
       )}
     </section>
   );
-  
 }
 
 MessageArea.propTypes = {

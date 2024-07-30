@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { fetchPath, fetchWithCredentials } from "../utils";
+import { socket } from "../socket";
 
 const useSendMessage = () => {
   const [error, setError] = useState(null);
@@ -22,14 +23,13 @@ const useSendMessage = () => {
 
     const json = await response.json();
 
-    console.log(json);
-
     setIsLoading(false);
     if (!response.ok) {
       setError(json.error);
-      setNewMessage("");
-    } else {
       setNewMessage(json.messageDocs);
+    } else {
+      socket.emit("sendMessage", {room: roomId, content: json.messageInfo});
+      setNewMessage("");
       setError(null);
     }
   };

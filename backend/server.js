@@ -43,7 +43,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      maxAge: 1000 * 60 * 60,  // 1 hour
+      maxAge: 1000 * 60 * 60, // 1 hour
       secure: false,
       httpOnly: true,
       sameSite: "lax",
@@ -72,43 +72,45 @@ app.get("/auth-status", (req, res) => {
 // io connection
 let users = [];
 
-const addUser = (userId, socketId) => {
-  !users.some((user) => user._id === userId) &&
-    users.push({ userId, socketId });
+const addUser = (user, socketId) => {
+  !users.some((existingUser) => existingUser._id === user._id) &&
+    users.push({ user, socketId });
 };
 
 const removeUser = (socketId) => {
   users = users.filter((user) => user.socketId !== socketId);
 };
 
-const getUser = (userId) => {
-  return users.find((user) => user.userId === userId);
-};
-
+// Socket logic
 io.on("connection", (socket) => {
   console.log("A user connected");
 
-  // When a user connects, add them to the list
-  socket.on("addUser", (userId) => {
-    addUser(userId, socket.id);
-    io.emit("getUsers", users);
+  // User status logic
+  socket.on("addUser", (user) => {
+    addUser(user, socket.id);
+    io.emit("getUser", users);
   });
 
-  // Send and receive messages
-  socket.on("sendMessage", ({ addedMessage, receiver, conversation }) => {
-    const receiverId = receiver._id;
-    const user = getUser(receiverId);
-
-    if (user) {
-      io.to(user.socketId).emit("getMessage", { addedMessage, conversation });
-    }
+  // Messaging logic
+  socket.on("joinRoom", (room) => {
+    socket.join(room);
+    console.log(`User joined room: ${room}`);
   });
 
-  // Handle user disconnection
+  socket.on("sendMessage", (message) => {
+    const room = message.room;
+    const content = message.content;
+    io.to(room).emit("receiveMessage", { content, user: socket.request.user });
+  });
+
+  socket.on("leaveRoom", (room) => {
+    socket.leave(room);
+    console.log(`User left room: ${room}`);
+  });
+
   socket.on("disconnect", () => {
-    console.log("A user disconnected");
     removeUser(socket.id);
-    io.emit("getUsers", users);
+    console.log("A user disconnected");
   });
 });
 

@@ -79,7 +79,7 @@ const Navbar = () => {
                   className="w-6 h-6 mx-1 invert"
                 />
               </button>
-              {error && <Error error={error} />}
+              {error && <Error error={error} redirect={true} />}
             </div>
           </div>
         </div>

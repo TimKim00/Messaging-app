@@ -32,6 +32,7 @@ const useLogin = () => {
       setError(null);
 
       navigate("/");
+      navigate(0);
     }
   };
   return { error, login, isLoading, setIsLoading, setError };

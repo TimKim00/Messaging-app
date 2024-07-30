@@ -1,11 +1,37 @@
-import { Outlet, Navigate } from "react-router-dom";
+import { Outlet } from "react-router-dom";
 import { useUserContext } from "../hooks/useUserContext";
 // import ThemeContextProvider from "../contexts/ThemeContext.jsx";
 import Navbar from "../components/Navbar.jsx";
 import { RotatingLines } from "react-loader-spinner";
+import { useEffect } from "react";
+import { socket } from "../socket.js";
 
 export default function Root() {
   const { user, authReady } = useUserContext();
+
+
+  useEffect(() => {
+    if (!user) {
+      return;
+    }
+
+    // Connect to the socket when the component mounts
+    socket.connect();
+
+    socket.on("connect", () => {
+      console.log("Connected to server");
+      socket.emit("addUser", user);
+    });
+
+    socket.on("getUser", (users) => {
+      console.log("Online users:", users);
+    });
+
+    socket.on("disconnect", () => {
+      console.log("Disconnected from server");
+    });
+  }, [user]);
+
   if (!authReady) {
     return (
       <RotatingLines
@@ -20,10 +46,6 @@ export default function Root() {
         wrapperClass=""
       />
     );
-  }
-
-  if (!user) {
-    return <Navigate to="/login" replace={true} />;
   }
 
   return (

@@ -19,7 +19,11 @@ const MessageBubble = ({ message, isCurrentUser, user, isFirst }) => (
           ? "bg-blue-500 text-white text-right"
           : "bg-gray-300 text-gray-900 text-left"
       } px-4 pt-1 pb-2 rounded-lg ${
-        isFirst ? (!isCurrentUser ? "speech-bubble-other" : "speech-bubble") : ""
+        isFirst
+          ? !isCurrentUser
+            ? "speech-bubble-other"
+            : "speech-bubble"
+          : ""
       }`}
     >
       {message.isImage ? (
@@ -118,6 +122,7 @@ const MessageDisplay = ({ messages, users }) => {
 MessageDisplay.propTypes = {
   messages: PropTypes.array.isRequired,
   users: PropTypes.any.isRequired,
+  setMessages: PropTypes.func.isRequired,
 };
 
 export default MessageDisplay;

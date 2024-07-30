@@ -65,4 +65,5 @@ function groupMessages(messages) {
   return groupedMessages;
 }
 
+
 export { getPath, fetchPath, fetchWithCredentials, groupMessages };

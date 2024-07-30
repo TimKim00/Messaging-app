@@ -10,6 +10,7 @@ export default function UserChatPreviews({
   activeChat,
   setActiveChat,
 }) {
+
   return (
     <section>
       {isLoading && (
@@ -25,7 +26,7 @@ export default function UserChatPreviews({
           />
         </div>
       )}
-      {error && <Error error={error} errorHeight={"h-screen"} />}
+      {error && <Error redirect={true}/>}
       <div
         className={`${
           isLoading ? "opacity-50" : "opacity-100"

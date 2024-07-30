@@ -5,7 +5,7 @@ import UserContextProvider from "./contexts/UserContext.jsx";
 import "./index.css";
 
 import Root from "./pages/Root.jsx";
-import Homepage from "./pages/Chat/Homepage.jsx";
+import Chatpage from "./pages/Chat/Chatpage.jsx";
 import LoginPage from "./pages/Auth/LoginPage.jsx";
 import SignupPage from "./pages/Auth/SignupPage.jsx";
 
@@ -17,7 +17,7 @@ const router = createBrowserRouter(
       children: [
         {
           path: "/",
-          element: <Homepage />,
+          element: <Chatpage />,
         },
       ],
     },

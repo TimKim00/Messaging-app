@@ -4,7 +4,7 @@ import useFetchUserChats from "../../hooks/useFetchUserChats";
 import UserChatPreviews from "./UserChatPreviews";
 import MessageArea from "./MessageArea";
 
-export default function Homepage() {
+export default function ChatPage() {
   const { user } = useUserContext();
   const { error, fetchChatInfo, isLoading, chatrooms } = useFetchUserChats();
   const [activeChat, setActiveChat] = useState(null);
@@ -14,7 +14,7 @@ export default function Homepage() {
   }, [user.rooms]);
 
   return (
-    <main className="grid" style={{"gridTemplateColumns": "1fr 2fr"}}>
+    <main className="grid" style={{ gridTemplateColumns: "1fr 2fr" }}>
       <UserChatPreviews
         error={error}
         isLoading={isLoading}
