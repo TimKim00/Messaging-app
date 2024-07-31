@@ -1,7 +1,6 @@
 import { useEffect, useState } from "react";
 import { formatDistanceToNow } from "date-fns";
 import PropTypes from "prop-types";
-import { socket } from "../socket";
 
 // images
 import DefaultProfile from "../assets/defaultProfile.png";

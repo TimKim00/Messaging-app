@@ -6,7 +6,8 @@ import MessageArea from "./MessageArea";
 
 export default function ChatPage() {
   const { user } = useUserContext();
-  const { error, fetchChatInfo, isLoading, chatrooms, setChatrooms } = useFetchUserChats();
+  const { error, fetchChatInfo, isLoading, chatrooms, setChatrooms } =
+    useFetchUserChats();
   const [activeChat, setActiveChat] = useState(null);
 
   useEffect(() => {
@@ -15,13 +16,16 @@ export default function ChatPage() {
 
   return (
     <main className="grid" style={{ gridTemplateColumns: "1fr 2fr" }}>
-      <UserChatPreviews
-        error={error}
-        isLoading={isLoading}
-        chatrooms={chatrooms}
-        activeChat={activeChat}
-        setActiveChat={setActiveChat}
-      ></UserChatPreviews>
+      <div className="border-r border-zinc-200">
+        <span className="flex p-4 text-xl font-bold border-b-4 border-indigo-500"> Messages</span>
+        <UserChatPreviews
+          error={error}
+          isLoading={isLoading}
+          chatrooms={chatrooms}
+          activeChat={activeChat}
+          setActiveChat={setActiveChat}
+        ></UserChatPreviews>
+      </div>
       <MessageArea
         error={error}
         isLoading={isLoading}

@@ -6,6 +6,7 @@ import MessageIntro from "../../components/MessageIntro";
 import useFetchMessages from "../../hooks/useFetchMessages";
 import MessageDisplay from "../../components/MessageDisplay";
 import SendMessage from "../../components/sendMessage";
+import MessageHeader from "../../components/MessageHeader";
 import { groupMessages } from "../../utils";
 import { socket } from "../../socket";
 
@@ -64,6 +65,7 @@ export default function MessageArea({
       const updatedChatroom = {
         ...chatroomToUpdate,
         recentMessage: message.content,
+        updateTime: new Date(),
         messages: [message.content._id, ...chatroomToUpdate.messages],
       };
       setChatrooms((prevState) => {
@@ -98,11 +100,14 @@ export default function MessageArea({
             </div>
           )}
           {mError && <Error error={mError} errorHeight={"h-screen"} />}
-          <div className="grid h-full" style={{ gridTemplateRows: "4fr 1fr" }}>
+          <div className="grid h-full" style={{ gridTemplateRows: "0.4fr 4fr 1fr" }}>
             {chatroom === null ? (
               <MessageIntro />
             ) : (
               <>
+                <div className="bg-blue-100">
+                  <MessageHeader chatroom={chatroom}/>
+                </div>
                 <div className="flex-grow py-4 overflow-y-auto">
                   {messages === null ? (
                     <div className="flex items-center justify-center">

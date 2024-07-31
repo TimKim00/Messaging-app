@@ -27,8 +27,8 @@ const Navbar = () => {
   };
 
   const icons = [
-    { id: "chat", label: "Chat", icon: Message, redirect: "/" },
-    { id: "users", label: "User", icon: UserIcon, redirect: "/" },
+    { id: "chat", label: "Chat", icon: Message, redirect: "/chat" },
+    { id: "users", label: "User", icon: UserIcon, redirect: "/users" },
   ];
 
   return (
