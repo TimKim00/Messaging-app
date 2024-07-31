@@ -55,7 +55,9 @@ export default function MessageArea({
 
   useEffect(() => {
     const handleMessage = (message) => {
-      setMessages((prevState) => [...prevState, message.content]);
+      if (message.content.roomId === chatroomRef.current._id) {
+        setMessages((prevState) => [...prevState, message.content]);
+      }
       const chatroomToUpdate = chatrooms.find(
         (room) => room._id === message.content.roomId
       );

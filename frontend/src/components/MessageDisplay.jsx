@@ -68,6 +68,8 @@ const MessageDisplay = ({ messages, users }) => {
   const user = users.find((user) => user._id === messages[0].userId);
   const isCurrentUser = messages[0].userId === currentUser._id;
 
+  console.log(messages);
+
   return (
     <main>
       {/* Display messages. */}
