@@ -4,7 +4,7 @@ import { fetchPath, fetchWithCredentials } from "../utils";
 const useFetchMessages = () => {
   const [error, setError] = useState(null);
   const [isLoading, setIsLoading] = useState(false);
-  const [messages, setMessages] = useState([]); 
+  const [messages, setMessages] = useState(null); 
 
   const fetchChatInfo = async (messageIds) => {
     setIsLoading(true);
@@ -20,7 +20,7 @@ const useFetchMessages = () => {
     setIsLoading(false);
     if (!response.ok) {
       setError(json.error);
-      setMessages([]);
+      setMessages(null);
     } else {
       setMessages(json.messageDocs);
       setError(null);

@@ -6,7 +6,7 @@ import MessageArea from "./MessageArea";
 
 export default function ChatPage() {
   const { user } = useUserContext();
-  const { error, fetchChatInfo, isLoading, chatrooms } = useFetchUserChats();
+  const { error, fetchChatInfo, isLoading, chatrooms, setChatrooms } = useFetchUserChats();
   const [activeChat, setActiveChat] = useState(null);
 
   useEffect(() => {
@@ -26,6 +26,7 @@ export default function ChatPage() {
         error={error}
         isLoading={isLoading}
         chatrooms={chatrooms}
+        setChatrooms={setChatrooms}
         activeChat={activeChat}
       ></MessageArea>
     </main>

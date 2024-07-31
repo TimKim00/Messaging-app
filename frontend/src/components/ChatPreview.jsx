@@ -14,6 +14,7 @@ export default function ChatPreview({
 }) {
   const [isChatSelected, setIsChatSelected] = useState(false);
   const [previewMessage, setPreviewMessage] = useState(null);
+  const [unreads, setUnreads] = useState(0);
 
   let displayRoomName = "";
 
@@ -35,13 +36,13 @@ export default function ChatPreview({
     const setActive = () => {
       if (chatroom._id === activeId) {
         setIsChatSelected(true);
-        socket.emit("joinRoom", activeId);
       } else {
         setIsChatSelected(false);
       }
     };
 
     setActive();
+    setUnreads(0);
   }, [chatroom._id, activeId]);
 
   useEffect(() => {
@@ -78,26 +79,37 @@ export default function ChatPreview({
       </div>
       <div className="flex-grow">
         <div className="flex justify-between items-center">
-          <div
-            className={`text-base font-semibold ${
-              isChatSelected ? "text-indigo-500" : "text-gray-900"
-            }`}
-          >
-            {displayRoomName}
+          <div>
+            <div
+              className={`text-base font-semibold ${
+                isChatSelected ? "text-indigo-500" : "text-gray-900"
+              }`}
+            >
+              {displayRoomName}
+            </div>
+            {previewMessage ? (
+              <div className="text-xs text-gray-600 truncate">
+                {previewMessage.message}
+              </div>
+            ) : (
+              <div className="text-xs text-gray-600 truncate">{`Chat with ${displayRoomName}!`}</div>
+            )}
           </div>
-          <div className="text-xs text-gray-400">
-            {formatDistanceToNow(new Date(chatroom.updateTime), {
-              addSuffix: true,
-            })}
+          <div className="flex flex-col gap-2 items-end justify-center space-x-2">
+            <div className="text-xs text-gray-400">
+              {formatDistanceToNow(new Date(chatroom.updateTime), {
+                addSuffix: true,
+              })}
+            </div>
+            {unreads !== 0 ? (
+              <span className="bg-indigo-500 text-white text-xs font-bold w-6 h-6 flex items-center justify-center rounded-full">
+                {unreads}
+              </span>
+            ) : (
+              <span className="w-6 h-6"></span>
+            )}
           </div>
         </div>
-        {previewMessage ? (
-          <div className="text-xs text-gray-600 truncate">
-            {previewMessage.message}
-          </div>
-        ) : (
-          <div className="text-xs text-gray-600 truncate">{`Chat with ${displayRoomName}!`}</div>
-        )}
       </div>
     </div>
   );

@@ -11,7 +11,7 @@ import { socket } from "../socket";
 import Emoji from "../assets/emoji.svg";
 
 const SendMessage = ({ roomId }) => {
-  const { error, sendMessage, isLoading, newMessage, setNewMessage } =
+  const { sendMessage, newMessage, setNewMessage } =
     useSendMessage();
   const [showEmojis, setShowEmojis] = useState(false);
   const emojiPickerRef = useRef(null);

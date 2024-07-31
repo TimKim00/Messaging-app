@@ -43,7 +43,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      maxAge: 1000 * 60 * 60, // 1 hour
+      maxAge: 1000 * 60 * 60 * 12, // 12 hours
       secure: false,
       httpOnly: true,
       sameSite: "lax",
@@ -100,7 +100,11 @@ io.on("connection", (socket) => {
   socket.on("sendMessage", (message) => {
     const room = message.room;
     const content = message.content;
-    io.to(room).emit("receiveMessage", { content, user: socket.request.user });
+    console.log(`Message sent in room: ${room}`)
+    io.to(room).emit("receiveMessage", {
+      content,
+      user: socket.request.user,
+    });
   });
 
   socket.on("leaveRoom", (room) => {

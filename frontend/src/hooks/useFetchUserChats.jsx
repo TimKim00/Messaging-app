@@ -1,5 +1,6 @@
 import { useState } from "react";
 import { fetchPath, fetchWithCredentials } from "../utils";
+import { socket } from "../socket";
 
 const useFetchUserChats = () => {
   const [error, setError] = useState(null);
@@ -22,6 +23,9 @@ const useFetchUserChats = () => {
       setChatrooms([]);
     } else {
       setChatrooms(json.allChatrooms);
+      json.allChatrooms.forEach((chatroom) => {
+        socket.emit("joinRoom", chatroom._id);
+      })
       if (json.roomCount === 0) {
         setError("You have no messages!");
       } else {
@@ -29,7 +33,7 @@ const useFetchUserChats = () => {
       }
     }
   };
-  return { error, fetchChatInfo, isLoading, chatrooms };
+  return { error, fetchChatInfo, isLoading, chatrooms, setChatrooms };
 };
 
 export default useFetchUserChats;
