@@ -1,5 +1,6 @@
 import PropTypes from "prop-types";
 import format from "date-fns/format";
+import Loading from "./Loading";
 
 // images
 import DefaultProfile from "../assets/defaultProfile.png";
@@ -72,48 +73,55 @@ const MessageDisplay = ({ messages, users, isLoading }) => {
     <main>
       {/* Display messages. */}
       <section>
-        <div
-          className={`flex ${
-            isCurrentUser ? "justify-end" : "justify-start"
-          } mb-4 px-4`}
-        >
-          {!isCurrentUser && (
-            <div className="flex">
-              <img
-                src={user.profilePicture || DefaultProfile}
-                alt={user.name}
-                className="w-10 h-10 rounded-[16px] mr-3"
-              />
-              <div>
-                <span className="text-sm text-gray-700">{user.username}</span>
-                <div className="flex flex-col gap-2">
-                  {messages.map((message, index) => (
-                    <MessageBubble
-                      key={index}
-                      message={message}
-                      isCurrentUser={false}
-                      user={user}
-                      isFirst={index === 0}
-                    />
-                  ))}
+        {(isLoading || user === undefined) ? (
+          <Loading color="gray"></Loading>
+        ) : (
+          <div
+            className={`flex ${
+              isCurrentUser ? "justify-end" : "justify-start"
+            } mb-4 px-4`}
+          >
+            {!isCurrentUser && (
+              <div className="flex">
+                {console.log(messages)}
+                {console.log(users)}
+                {console.log(user)}
+                <img
+                  src={user.profilePicture || DefaultProfile}
+                  alt={user.name}
+                  className="w-10 h-10 rounded-[16px] mr-3"
+                />
+                <div>
+                  <span className="text-sm text-gray-700">{user.username}</span>
+                  <div className="flex flex-col gap-2">
+                    {messages.map((message, index) => (
+                      <MessageBubble
+                        key={index}
+                        message={message}
+                        isCurrentUser={false}
+                        user={user}
+                        isFirst={index === 0}
+                      />
+                    ))}
+                  </div>
                 </div>
               </div>
-            </div>
-          )}
-          {isCurrentUser && (
-            <div className="flex flex-col gap-2">
-              {messages.map((message, index) => (
-                <MessageBubble
-                  key={index}
-                  message={message}
-                  isCurrentUser={true}
-                  user={currentUser}
-                  isFirst={index === 0}
-                />
-              ))}
-            </div>
-          )}
-        </div>
+            )}
+            {isCurrentUser && (
+              <div className="flex flex-col gap-2">
+                {messages.map((message, index) => (
+                  <MessageBubble
+                    key={index}
+                    message={message}
+                    isCurrentUser={true}
+                    user={currentUser}
+                    isFirst={index === 0}
+                  />
+                ))}
+              </div>
+            )}
+          </div>
+        )}
       </section>
     </main>
   );
@@ -123,7 +131,7 @@ MessageDisplay.propTypes = {
   messages: PropTypes.array.isRequired,
   users: PropTypes.any.isRequired,
   setMessages: PropTypes.func.isRequired,
-  isLoading: PropTypes.bool
+  isLoading: PropTypes.bool,
 };
 
 export default MessageDisplay;

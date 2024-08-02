@@ -26,7 +26,7 @@ const useFetchMessages = () => {
       setError(null);
     }
   };
-  return { error, fetchChatInfo, isLoading, messages, setMessages};
+  return { error, fetchChatInfo, isLoading, messages, setMessages };
 };
 
 export default useFetchMessages;

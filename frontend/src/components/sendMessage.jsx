@@ -4,9 +4,6 @@ import { useState, useRef, useEffect, lazy, Suspense } from "react";
 const EmojiPicker = lazy(() => import("emoji-picker-react")); // Adjust the import as necessary
 import SendIcon from "../assets/send.svg";
 
-// socket
-import { socket } from "../socket";
-
 // images
 import Emoji from "../assets/emoji.svg";
 

@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import useLogin from "../../hooks/useLogin";
 import Logo from "../../assets/logo.svg";
-import { RotatingLines } from "react-loader-spinner";
+import Loading from "../../components/Loading";
 import Error from "../../components/Error";
 import { Link } from "react-router-dom";
 
@@ -86,16 +86,9 @@ const LoginPage = () => {
             className="w-full flex justify-center py-2 px-4 border border-transparent rounded-md shadow-sm text-sm font-medium text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500"
           >
             {isLoading ? (
-              <RotatingLines
-                visible={true}
-                height="16"
-                width="16"
-                strokeColor="white"
-                strokeWidth="5"
-                animationDuration="0.75"
-                ariaLabel="rotating-lines-loading"
-                wrapperStyle={{}}
-                wrapperClass=""
+              <Loading
+                dim={16}
+                color="white"
               />
             ) : (
               <span>Log In</span>

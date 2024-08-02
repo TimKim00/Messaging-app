@@ -1,7 +1,7 @@
-import { RotatingLines } from "react-loader-spinner";
 import Error from "../../components/Error";
 import PropTypes from "prop-types";
 import ChatPreview from "../../components/ChatPreview";
+import Loading from "../../components/Loading";
 
 export default function UserChatPreviews({
   error,
@@ -11,18 +11,15 @@ export default function UserChatPreviews({
   setActiveChat,
 }) {
   return (
-    <section>
+    <section className="h-full-minus-pixels">
+      <style>{`
+        .h-full-minus-pixels {
+          height: calc(100vh - 64px);
+        }
+      `}</style>
       {isLoading && (
-        <div className="absolute inset-0 flex items-center justify-center">
-          <RotatingLines
-            visible={true}
-            height="80"
-            width="80"
-            strokeColor="blue"
-            strokeWidth="5"
-            animationDuration="0.75"
-            ariaLabel="rotating-lines-loading"
-          />
+        <div className="h-full flex items-center justify-center">
+          <Loading />
         </div>
       )}
       {error && <Error redirect={true} />}

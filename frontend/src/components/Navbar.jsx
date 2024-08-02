@@ -13,7 +13,7 @@ import LogoutIcon from "../assets/logoutIcon.svg";
 
 const Navbar = () => {
   const { user } = useUserContext();
-  const [toggledIcon, setToggledIcon] = useState(null);
+  const [toggledIcon, setToggledIcon] = useState(String(window.location.pathname).substring(1));
   const { error, logout } = useLogout();
 
   const handleToggle = (iconId) => {

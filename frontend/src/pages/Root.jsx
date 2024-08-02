@@ -2,13 +2,12 @@ import { Outlet } from "react-router-dom";
 import { useUserContext } from "../hooks/useUserContext";
 // import ThemeContextProvider from "../contexts/ThemeContext.jsx";
 import Navbar from "../components/Navbar.jsx";
-import { RotatingLines } from "react-loader-spinner";
+import Loading from "../components/Loading.jsx";
 import { useEffect } from "react";
 import { socket } from "../socket.js";
 
 export default function Root() {
   const { user, authReady } = useUserContext();
-
 
   useEffect(() => {
     if (!user) {
@@ -33,19 +32,7 @@ export default function Root() {
   }, [user]);
 
   if (!authReady) {
-    return (
-      <RotatingLines
-        visible={true}
-        height="16"
-        width="16"
-        strokeColor="blue"
-        strokeWidth="5"
-        animationDuration="0.75"
-        ariaLabel="rotating-lines-loading"
-        wrapperStyle={{}}
-        wrapperClass=""
-      />
-    );
+    return <Loading dim={16} />;
   }
 
   return (

@@ -1,6 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
-import { RotatingLines } from "react-loader-spinner";
+import Loading from "../../components/Loading";
 import Error from "../../components/Error";
 import MessageIntro from "../../components/MessageIntro";
 import useFetchMessages from "../../hooks/useFetchMessages";
@@ -11,13 +11,14 @@ import { groupMessages } from "../../utils";
 import { socket } from "../../socket";
 
 export default function MessageArea({
-  error,
+  roomError,
   chatrooms,
+  isRoomLoading,
   setChatrooms,
   activeChat,
 }) {
   const [chatroom, setChatroom] = useState(null);
-  const { mError, fetchChatInfo, mLoading, messages, setMessages } =
+  const { error, fetchChatInfo, isLoading, messages, setMessages } =
     useFetchMessages();
 
   const messageEndRef = useRef(null);
@@ -84,42 +85,29 @@ export default function MessageArea({
 
   return (
     <section className="h-screen bg-blue-100 shadow-lg shadow-neutral-300">
-      {!error && (
+      {!roomError && (
         <>
-          {mLoading && (
-            <div className="absolute inset-0 flex items-center justify-center">
-              <RotatingLines
-                visible={true}
-                height="80"
-                width="80"
-                strokeColor="blue"
-                strokeWidth="5"
-                animationDuration="0.75"
-                ariaLabel="rotating-lines-loading"
-              />
+          {isLoading && (
+            <div className="h-full w-full flex items-center justify-center">
+              <Loading />
             </div>
           )}
-          {mError && <Error error={mError} errorHeight={"h-screen"} />}
-          <div className="grid h-full" style={{ gridTemplateRows: "0.4fr 4fr 1fr" }}>
+          {error && <Error error={error} errorHeight={"h-screen"} />}
+          <div
+            className="grid h-full"
+            style={{ gridTemplateRows: "0.4fr 4fr 1fr" }}
+          >
             {chatroom === null ? (
               <MessageIntro />
             ) : (
               <>
                 <div className="bg-blue-100">
-                  <MessageHeader chatroom={chatroom}/>
+                  <MessageHeader chatroom={chatroom} />
                 </div>
                 <div className="flex-grow py-4 overflow-y-auto">
                   {messages === null ? (
                     <div className="flex items-center justify-center">
-                      <RotatingLines
-                        visible={true}
-                        height="80"
-                        width="80"
-                        strokeColor="blue"
-                        strokeWidth="5"
-                        animationDuration="0.75"
-                        ariaLabel="rotating-lines-loading"
-                      />
+                      <Loading />
                     </div>
                   ) : messages.length === 0 ? (
                     <Error
@@ -133,7 +121,7 @@ export default function MessageArea({
                         messages={messageGroup}
                         setMessages={setMessages}
                         users={chatroom.users}
-                        isLoading={mLoading}
+                        isLoading={isLoading && isRoomLoading}
                       />
                     ))
                   )}
@@ -152,8 +140,9 @@ export default function MessageArea({
 }
 
 MessageArea.propTypes = {
-  error: PropTypes.string,
+  roomError: PropTypes.string,
   chatrooms: PropTypes.array.isRequired,
+  isRoomLoading: PropTypes.bool,
   setChatrooms: PropTypes.func,
   activeChat: PropTypes.any,
 };
