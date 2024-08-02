@@ -63,12 +63,10 @@ MessageBubble.propTypes = {
   isFirst: PropTypes.bool.isRequired,
 };
 
-const MessageDisplay = ({ messages, users }) => {
+const MessageDisplay = ({ messages, users, isLoading }) => {
   const currentUser = JSON.parse(localStorage.getItem("user"));
   const user = users.find((user) => user._id === messages[0].userId);
   const isCurrentUser = messages[0].userId === currentUser._id;
-
-  console.log(messages);
 
   return (
     <main>
@@ -125,6 +123,7 @@ MessageDisplay.propTypes = {
   messages: PropTypes.array.isRequired,
   users: PropTypes.any.isRequired,
   setMessages: PropTypes.func.isRequired,
+  isLoading: PropTypes.bool
 };
 
 export default MessageDisplay;

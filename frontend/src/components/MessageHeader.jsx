@@ -42,7 +42,7 @@ export default function MessageHeader({ chatroom }) {
         </div>
         <div className="flex-grow">
           <div className="flex flex-col justify-between gap-1">
-            <div className="text-zinc-500 font-bold">{displayRoomName}</div>
+            <div className="text-zinc-600 font-semibold">{displayRoomName}</div>
             <img className="w-3" src={MessageIcon} alt="" />
           </div>
         </div>

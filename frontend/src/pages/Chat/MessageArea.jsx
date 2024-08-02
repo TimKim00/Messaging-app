@@ -133,6 +133,7 @@ export default function MessageArea({
                         messages={messageGroup}
                         setMessages={setMessages}
                         users={chatroom.users}
+                        isLoading={mLoading}
                       />
                     ))
                   )}
