@@ -3,7 +3,7 @@ import PropTypes from "prop-types";
 
 export default function Loading({
     dim=80,
-    color="blue",
+    color="indigo",
     width=5,
     duration=0.75
 }) {

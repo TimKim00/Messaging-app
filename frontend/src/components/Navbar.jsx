@@ -28,7 +28,7 @@ const Navbar = () => {
 
   const icons = [
     { id: "chat", label: "Chat", icon: Message, redirect: "/chat" },
-    { id: "users", label: "User", icon: UserIcon, redirect: "/chat" },
+    { id: "users", label: "User", icon: UserIcon, redirect: "/users" },
   ];
 
   return (
@@ -37,7 +37,7 @@ const Navbar = () => {
         <div>
           <Link to="/">
             <button className="home-button px-2 -py-2 ml-1 flex items-center justify-center w-13 h-13">
-              <img src={Home} alt="home icon" className="w-12 h-12" onClick={() => handleToggle(null)}/>
+              <img src={Home} alt="home icon" className="w-12 h-12" onClick={() => handleToggle("")}/>
             </button>
           </Link>
           <hr className="my-4 border-gray-700 w-3/4 mx-auto" />
