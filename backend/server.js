@@ -91,10 +91,6 @@ io.on("connection", (socket) => {
     io.emit("getUser", users);
   });
 
-  socket.on("getOnlineUsers", () => {
-    io.emit("getOnlineUsersResponse", users);
-  });
-
   // Messaging logic
   socket.on("joinRoom", (room) => {
     socket.join(room);
@@ -118,6 +114,7 @@ io.on("connection", (socket) => {
 
   socket.on("disconnect", () => {
     removeUser(socket.id);
+    io.emit("getUser", users);
     console.log("A user disconnected");
   });
 });

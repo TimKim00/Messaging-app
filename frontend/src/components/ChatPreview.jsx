@@ -1,6 +1,7 @@
 import { useEffect, useState } from "react";
 import { formatDistanceToNow } from "date-fns";
 import PropTypes from "prop-types";
+import RoomImage from "./RoomImage";
 
 // images
 import DefaultProfile from "../assets/defaultProfile.png";
@@ -16,13 +17,12 @@ export default function ChatPreview({
   const [unreads, setUnreads] = useState(0);
 
   let displayRoomName = "";
+  const currentUser = JSON.parse(localStorage.getItem("user"));
+  const users = chatroom.users.filter((user) => user._id !== currentUser._id);
 
   if (roomName !== "") {
     displayRoomName = roomName;
   } else {
-    const currentUser = JSON.parse(localStorage.getItem("user"));
-    const users = chatroom.users.filter((user) => user._id !== currentUser._id);
-
     users.forEach((user, index) => {
       if (index !== 0) {
         displayRoomName += ", ";
@@ -58,23 +58,15 @@ export default function ChatPreview({
         isChatSelected
           ? "bg-blue-100 border-l-4 border-indigo-500"
           : "bg-white border-b"
-      } hover:bg-gray-100`}
+      } hover:bg-gray-100 `}
       onClick={handleClick}
     >
-      <div className="flex-shrink-0 mr-3">
-        {chatroom.roomImage !== "" ? (
-          <img
-            src={chatroom.roomImage}
-            alt="Room"
-            className="w-10 h-10 rounded-[16px]"
-          />
-        ) : (
-          <img
-            src={DefaultProfile}
-            alt="Default"
-            className="w-10 h-10 rounded-[16px]"
-          />
-        )}
+      <div className="flex-shrink-0 mr-3 bg-inherit">
+        <RoomImage users={users} borderColor={`${
+        isChatSelected
+          ? "border-blue-100"
+          : "border-white"
+      }`}/>
       </div>
       <div className="flex-grow">
         <div className="flex justify-between items-center">

@@ -87,7 +87,7 @@ const MessageDisplay = ({ messages, users, isLoading }) => {
                 {console.log(users)}
                 {console.log(user)}
                 <img
-                  src={user.profilePicture || DefaultProfile}
+                  src={user.coverImage || DefaultProfile}
                   alt={user.name}
                   className="w-10 h-10 rounded-[16px] mr-3"
                 />

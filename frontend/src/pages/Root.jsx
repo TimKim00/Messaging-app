@@ -3,11 +3,12 @@ import { useUserContext } from "../hooks/useUserContext";
 // import ThemeContextProvider from "../contexts/ThemeContext.jsx";
 import Navbar from "../components/Navbar.jsx";
 import Loading from "../components/Loading.jsx";
-import { useEffect } from "react";
+import { useState, useEffect } from "react";
 import { socket } from "../socket.js";
 
 export default function Root() {
   const { user, authReady } = useUserContext();
+  const [onlineUsers, setOnlineUsers] = useState([]);
 
   useEffect(() => {
     if (!user) {
@@ -23,7 +24,7 @@ export default function Root() {
     });
 
     socket.on("getUser", (users) => {
-      console.log("Online users:", users);
+      setOnlineUsers(users);
     });
 
     socket.on("disconnect", () => {
@@ -43,7 +44,7 @@ export default function Root() {
       </section>
       {/* Main content */}
       <section className="flex-grow overflow-auto">
-        <Outlet />
+        <Outlet context={onlineUsers}/>
       </section>
     </div>
   );

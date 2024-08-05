@@ -3,7 +3,12 @@ import useFetchUsers from "../../hooks/useFetchUsers";
 import { socket } from "../../socket";
 import Error from "../../components/Error";
 import Loading from "../../components/Loading";
+import PropTypes from "prop-types";
+
+// Image
 import FriendLogo from "../../assets/friends.svg";
+import DefaultProfile from "../../assets/defaultProfile.png";
+import { useOutletContext } from "react-router-dom";
 
 export default function UserPage() {
   // Retreive the list of users.
@@ -11,43 +16,33 @@ export default function UserPage() {
   const [parsedUsers, setParsedUsers] = useState([]);
   const [showFriends, setShowFriends] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const onlineUsers = useOutletContext();
 
   useEffect(() => {
     fetchUsers();
   }, []);
 
   useEffect(() => {
-    const parseUsers = (onlineUsers) => {
-      const onlineSet = new Set(onlineUsers.map((info) => info.user.username)); // Hashset.
-      const tempArr = [];
+    console.log(onlineUsers);
+    const onlineSet = new Set(onlineUsers.map((info) => info.user.username)); // Hashset.
+    const tempArr = [];
 
-      globalUsers.forEach((user) => {
-        if (onlineSet.has(user.username)) {
-          tempArr.push({ user, online: true });
-        } else {
-          tempArr.push({ user, online: false });
-        }
-      });
+    globalUsers.forEach((user) => {
+      if (onlineSet.has(user.username)) {
+        tempArr.push({ user, online: true });
+      } else {
+        tempArr.push({ user, online: false });
+      }
+    });
 
-      tempArr.sort((k1, k2) => {
-        if (k1.online && !k2.online) return -1;
-        if (!k1.online && k2.online) return 1;
-        return k1.user.username.localeCompare(k2.user.username);
-      });
+    tempArr.sort((k1, k2) => {
+      if (k1.online && !k2.online) return -1;
+      if (!k1.online && k2.online) return 1;
+      return k1.user.username.localeCompare(k2.user.username);
+    });
 
-      console.log("Setting parsedUsers:", tempArr); // Debugging log
-      setParsedUsers(tempArr);
-    };
-    console.log("Attaching socket listener for getUser event"); // Debugging log
-    socket.emit("getOnlineUsers");
-
-    socket.on("getOnlineUsersResponse", parseUsers);
-
-    return () => {
-      console.log("Detaching socket listener for getUser event"); // Debugging log
-      socket.off("getOnlineUsersResponse", parseUsers);
-    };
-  }, [globalUsers]);
+    setParsedUsers(tempArr);
+  }, [globalUsers, onlineUsers]);
 
   return (
     <main className="grid h-full" style={{ gridTemplateColumns: "1fr 2.5fr" }}>
@@ -78,10 +73,31 @@ export default function UserPage() {
           {/* User List */}
           <div>
             {error && <Error error={error} />}
-            {isLoading && <Loading />}
-            {parsedUsers.forEach((user) => {(
-                <img src={user.coverImage}></img>
-            )})}
+            {isLoading ? (
+              <Loading />
+            ) : (
+              <>
+                {parsedUsers.map((userInfo) => (
+                  <div
+                    key={userInfo.user._id}
+                    className="flex items-center gap-4 m-3.5 overflow-auto text-lg font-semibold"
+                  >
+                    <div className="relative">
+                      <img
+                        src={userInfo.user.coverImage || DefaultProfile}
+                        className="w-10 h-10 rounded-[16px]"
+                      ></img>
+                      <div
+                        className={`absolute bottom-0 right-0 w-3 h-3 rounded-full ${
+                          userInfo.online ? "bg-green-500" : "bg-gray-500"
+                        }`}
+                      ></div>
+                    </div>
+                    {userInfo.user.username}
+                  </div>
+                ))}
+              </>
+            )}
           </div>
         </div>
       </section>
