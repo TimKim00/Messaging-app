@@ -15,9 +15,9 @@ export default function ChatPage() {
   }, [user.rooms]);
 
   return (
-    <main className="grid" style={{ gridTemplateColumns: "1fr 2fr" }}>
+    <main className="grid" style={{ gridTemplateColumns: "1fr 2.3fr" }}>
       <div className="border-r border-zinc-200">
-        <span className="flex p-4 text-xl font-bold border-b-4 border-indigo-500"> Messages</span>
+        <span className="flex p-4 text-xl font-bold border-b-4 border-indigo-500"> Chats</span>
         <UserChatPreviews
           error={error}
           isLoading={isLoading}

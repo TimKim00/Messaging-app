@@ -13,9 +13,11 @@ exports.getUsers = [
       User.find().exec(),
     ]);
 
+    const filteredUsers = allUsers.map((user) => filterPrivateInfo(user._doc));
+    
     res.json({
       userCount: numUsers,
-      allUsers: allUsers.map((user) => filterPrivateInfo(user)),
+      allUsers: filteredUsers,
     });
   }),
 ];

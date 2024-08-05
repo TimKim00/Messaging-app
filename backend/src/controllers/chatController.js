@@ -7,15 +7,11 @@ const { validationResult } = require("express-validator");
 const { filterPrivateInfo } = require("../utils");
 
 exports.getAllChatrooms = asyncHandler(async (req, res, next) => {
-  const [numRooms, allRooms] = await Promise.all([
-    Room.countDocuments({ users: req.user._id }).exec(),
-    Room.find({ users: req.user._id })
-      .populate("recentMessage")
-      .populate("users")
-      .sort({updateTime: -1})
-      .exec(),
-  ]);
-
+  const allRooms = await Room.find({ users: req.user._id })
+    .populate("recentMessage")
+    .populate("users")
+    .sort({ updateTime: -1 })
+    .exec();
   const filteredRooms = allRooms.map((room) => {
     // Convert room document to plain JavaScript object
     const plainRoom = room.toObject();
@@ -27,7 +23,7 @@ exports.getAllChatrooms = asyncHandler(async (req, res, next) => {
   });
 
   return res.json({
-    roomCount: numRooms,
+    roomCount: filteredRooms.length,
     allChatrooms: filteredRooms,
   });
 });

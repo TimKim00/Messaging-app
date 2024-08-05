@@ -45,7 +45,7 @@ export default function MessageArea({
       fetchChatInfo(chatroom.messages);
     }
     chatroomRef.current = chatroom;
-  }, [chatroom]);
+  }, [chatroom && chatroom._id]);
 
   useEffect(() => {
     messageEndRef.current?.scrollIntoView({

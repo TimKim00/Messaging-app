@@ -8,8 +8,7 @@ import SendIcon from "../assets/send.svg";
 import Emoji from "../assets/emoji.svg";
 
 const SendMessage = ({ roomId }) => {
-  const { sendMessage, newMessage, setNewMessage } =
-    useSendMessage();
+  const { sendMessage, newMessage, setNewMessage } = useSendMessage();
   const [showEmojis, setShowEmojis] = useState(false);
   const emojiPickerRef = useRef(null);
 
@@ -68,6 +67,14 @@ const SendMessage = ({ roomId }) => {
             value={newMessage}
             onChange={handleType}
             placeholder="Send your message..."
+            onKeyDown={(e) => {
+              if (e.key === "Enter") {
+                e.preventDefault();
+                if (newMessage.trim() !== "") {
+                  sendMessage(roomId);
+                }
+              }
+            }}
           />
           <button
             className={`text-3xl mr-2 ${

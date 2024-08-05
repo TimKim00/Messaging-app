@@ -21,8 +21,8 @@ const useFetchUsers = () => {
       setError(json.message);
       setGlobalUsers([]);
     } else {
-        setGlobalUsers(json.allUsers);
-        setError(null);
+      setGlobalUsers(json.allUsers);
+      setError(null);
     }
   };
   return { error, fetchUsers, isLoading, globalUsers };

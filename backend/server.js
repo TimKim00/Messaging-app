@@ -91,6 +91,10 @@ io.on("connection", (socket) => {
     io.emit("getUser", users);
   });
 
+  socket.on("getOnlineUsers", () => {
+    io.emit("getOnlineUsersResponse", users);
+  });
+
   // Messaging logic
   socket.on("joinRoom", (room) => {
     socket.join(room);

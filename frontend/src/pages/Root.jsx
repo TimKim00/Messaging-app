@@ -36,9 +36,9 @@ export default function Root() {
   }
 
   return (
-    <div className="flex h-screen">
+    <div className="flex h-lvh">
       {/* Navigation bar */}
-      <section className="h-full w-18 bg-gray-200 flex-shrink-0 sticky top-0">
+      <section className="w-18 bg-gray-200 flex-shrink-0 sticky top-0">
         <Navbar />
       </section>
       {/* Main content */}
