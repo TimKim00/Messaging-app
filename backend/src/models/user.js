@@ -10,6 +10,7 @@ const UserSchema = new Schema({
 	friends: [{type: Schema.Types.ObjectId, ref: "User"}],
 	profileId: { type: Schema.Types.ObjectId, required: true, ref: "Profile" },
 	coverImage: { type: String, default: "" },
+	lastOnline: {type: Date, default: Date.now()}
 }); // As User
 
 // Method to compare the given password with the database hash

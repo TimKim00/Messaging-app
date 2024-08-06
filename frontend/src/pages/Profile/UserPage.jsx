@@ -1,9 +1,8 @@
 import { useState, useEffect } from "react";
 import useFetchUsers from "../../hooks/useFetchUsers";
-import { socket } from "../../socket";
 import Error from "../../components/Error";
 import Loading from "../../components/Loading";
-import PropTypes from "prop-types";
+import UserPreview from "../../components/UserPreview";
 
 // Image
 import FriendLogo from "../../assets/friends.svg";
@@ -23,7 +22,6 @@ export default function UserPage() {
   }, []);
 
   useEffect(() => {
-    console.log(onlineUsers);
     const onlineSet = new Set(onlineUsers.map((info) => info.user.username)); // Hashset.
     const tempArr = [];
 
@@ -78,23 +76,7 @@ export default function UserPage() {
             ) : (
               <>
                 {parsedUsers.map((userInfo) => (
-                  <div
-                    key={userInfo.user._id}
-                    className="flex items-center gap-4 m-3.5 overflow-auto text-lg font-semibold"
-                  >
-                    <div className="relative">
-                      <img
-                        src={userInfo.user.coverImage || DefaultProfile}
-                        className="w-10 h-10 rounded-[16px]"
-                      ></img>
-                      <div
-                        className={`absolute bottom-0 right-0 w-3 h-3 rounded-full ${
-                          userInfo.online ? "bg-green-500" : "bg-gray-500"
-                        }`}
-                      ></div>
-                    </div>
-                    {userInfo.user.username}
-                  </div>
+                  <UserPreview key={userInfo.user._id} userInfo={userInfo} />
                 ))}
               </>
             )}

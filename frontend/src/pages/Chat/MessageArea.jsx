@@ -21,6 +21,8 @@ export default function MessageArea({
   const { error, fetchChatInfo, isLoading, messages, setMessages } =
     useFetchMessages();
 
+  const [menuMessage, setMenuMessage] = useState(null);
+
   const messageEndRef = useRef(null);
   const chatroomRef = useRef(chatroom);
 
@@ -110,10 +112,7 @@ export default function MessageArea({
                       <Loading />
                     </div>
                   ) : messages.length === 0 ? (
-                    <Error
-                      error={"No message to display"}
-                      errorHeight={"h-screen"}
-                    />
+                    <span>{`Start messaging by sending "Hello👋"!`}</span>
                   ) : (
                     groupMessages(messages).map((messageGroup) => (
                       <MessageDisplay
@@ -122,6 +121,7 @@ export default function MessageArea({
                         setMessages={setMessages}
                         users={chatroom.users}
                         isLoading={isLoading && isRoomLoading}
+                        menuState={{ menuMessage, setMenuMessage }}
                       />
                     ))
                   )}

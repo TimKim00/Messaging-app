@@ -120,8 +120,8 @@
 	border-color: transparent var(--tooltip-color) transparent transparent;
 }
 
-/* Show tooltip text on hover */
-.tooltip:hover .tooltiptext {
+/* Show tooltip text on toggled */
+.tooltip.toggled .tooltiptext {
 	visibility: visible;
 	opacity: 1;
 }

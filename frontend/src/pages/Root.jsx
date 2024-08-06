@@ -37,7 +37,7 @@ export default function Root() {
   }
 
   return (
-    <div className="flex h-lvh">
+    <div className="flex h-lvh z-0">
       {/* Navigation bar */}
       <section className="w-18 bg-gray-200 flex-shrink-0 sticky top-0">
         <Navbar />

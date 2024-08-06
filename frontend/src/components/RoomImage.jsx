@@ -18,12 +18,12 @@ export default function RoomImage({ users, borderColor = "border-white" }) {
         <img
           src={users[1].coverImage || DefaultProfile}
           alt=""
-          className={`absolute z-0 right-0 bottom-0 w-7 h-7 rounded-[8px] ${borderColor}`}
+          className={`absolute z-0 right-0 bottom-0 w-7 h-7 rounded-[10px] ${borderColor}`}
         />
         <img
           src={users[0].coverImage || DefaultProfile}
           alt=""
-          className={`absolute z-0 -left-1 -top-1 w-7 h-7 rounded-[8px] box-content border-2 ${borderColor}`}
+          className={`absolute z-0 -left-1 -top-1 w-7 h-7 rounded-[10px] box-content border-2 ${borderColor}`}
         />
       </div>
     );

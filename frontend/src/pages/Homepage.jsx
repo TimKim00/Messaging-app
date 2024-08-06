@@ -1,4 +1,5 @@
 import Tooltip from "../components/Tooltip";
+import { Link } from "react-router-dom";
 
 // HomePage Component
 export default function HomePage() {
@@ -14,7 +15,7 @@ export default function HomePage() {
           />
           <h2 className="mt-4 text-xl text-center font-bold">User Name</h2>
           <p className="mt-2 text-center text-gray-600">
-            <Tooltip direction="left">User bio goes here.</Tooltip>
+            <Tooltip direction="left" text={<Link to="/chat" reloadDocument>To UserChat</Link>}>User bio goes here.</Tooltip>
           </p>
         </div>
       </aside>
