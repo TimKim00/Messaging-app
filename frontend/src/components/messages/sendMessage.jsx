@@ -1,11 +1,11 @@
 import PropTypes from "prop-types";
-import useSendMessage from "../hooks/useSendMessage";
+import useSendMessage from "../../hooks/useSendMessage";
 import { useState, useRef, useEffect, lazy, Suspense } from "react";
 const EmojiPicker = lazy(() => import("emoji-picker-react")); // Adjust the import as necessary
-import SendIcon from "../assets/send.svg";
+import SendIcon from "../../assets/send.svg";
 
 // images
-import Emoji from "../assets/emoji.svg";
+import Emoji from "../../assets/emoji.svg";
 
 const SendMessage = ({ roomId }) => {
   const { sendMessage, newMessage, setNewMessage } = useSendMessage();

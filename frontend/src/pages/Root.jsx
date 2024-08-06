@@ -1,10 +1,16 @@
 import { Outlet } from "react-router-dom";
+import { useState, useEffect } from "react";
+
+// socket
+import { socket } from "../socket.js";
+
+// Hooks
 import { useUserContext } from "../hooks/useUserContext";
 // import ThemeContextProvider from "../contexts/ThemeContext.jsx";
+
+// Components
 import Navbar from "../components/Navbar.jsx";
-import Loading from "../components/Loading.jsx";
-import { useState, useEffect } from "react";
-import { socket } from "../socket.js";
+import Loading from "../components/utils/Loading.jsx";
 
 export default function Root() {
   const { user, authReady } = useUserContext();

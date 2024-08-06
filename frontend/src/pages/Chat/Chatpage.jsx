@@ -1,8 +1,10 @@
-import { useUserContext } from "../../hooks/useUserContext";
 import { useState, useEffect } from "react";
-import useFetchUserChats from "../../hooks/useFetchUserChats";
 import UserChatPreviews from "./UserChatPreviews";
 import MessageArea from "./MessageArea";
+
+// Hooks
+import { useUserContext } from "../../hooks/useUserContext";
+import useFetchUserChats from "../../hooks/useFetchUserChats";
 
 export default function ChatPage() {
   const { user } = useUserContext();

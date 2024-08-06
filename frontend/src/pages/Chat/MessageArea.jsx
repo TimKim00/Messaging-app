@@ -1,12 +1,18 @@
 import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
-import Loading from "../../components/Loading";
-import Error from "../../components/Error";
-import MessageIntro from "../../components/MessageIntro";
+
+// Hooks
 import useFetchMessages from "../../hooks/useFetchMessages";
-import MessageDisplay from "../../components/MessageDisplay";
-import SendMessage from "../../components/sendMessage";
-import MessageHeader from "../../components/MessageHeader";
+
+// Components
+import Loading from "../../components/utils/Loading";
+import Error from "../../components/utils/Error";
+import MessageIntro from "../../components/messages/MessageIntro";
+import MessageDisplay from "../../components/messages/MessageDisplay";
+import SendMessage from "../../components/messages/sendMessage";
+import MessageHeader from "../../components/messages/MessageHeader";
+
+// util functions
 import { groupMessages } from "../../utils";
 import { socket } from "../../socket";
 
@@ -57,8 +63,9 @@ export default function MessageArea({
     });
   }, [messages]);
 
+  // Handle sockets
   useEffect(() => {
-    const handleMessage = (message) => {
+    const handleNewMessage = (message) => {
       if (message.content.roomId === chatroomRef.current._id) {
         setMessages((prevState) => [...prevState, message.content]);
       }
@@ -78,12 +85,49 @@ export default function MessageArea({
       });
     };
 
-    socket.on("receiveMessage", handleMessage);
+    const handleDeleteMessage = (message) => {
+      let newRecentMessage = null;
+      if (message.content.roomId === chatroomRef.current._id) {
+        setMessages((prevState) =>
+          prevState.filter((msg) => {
+            if (msg._id !== message.content._id) {
+              newRecentMessage = msg;
+              return true;
+            }
+            return false;
+          })
+        );
+      }
+
+      const chatroomToUpdate = chatrooms.find(
+        (room) => room._id === message.content.roomId
+      );
+
+      const newChatroomMessages = chatroomToUpdate.messages.filter(
+        (msgId) => msgId != message.content._id
+      );
+
+      const updatedChatroom = {
+        ...chatroomToUpdate,
+        recentMessage: newRecentMessage,
+        updateTime: new Date(),
+        messages: newChatroomMessages,
+      };
+      setChatrooms((prevState) => {
+        return prevState.map((room) =>
+          room._id === chatroomToUpdate._id ? updatedChatroom : room
+        );
+      });
+    };
+
+    socket.on("receiveMessage", handleNewMessage);
+    socket.on("receiveDeletedMessage", handleDeleteMessage);
 
     return () => {
-      socket.off("receiveMessage", handleMessage);
+      socket.off("receiveMessage", handleNewMessage);
+      socket.off("receiveDeletedMessage", handleDeleteMessage);
     };
-  }, [chatrooms]);
+  }, [chatrooms, messages]);
 
   return (
     <section className="h-screen bg-blue-100 shadow-lg shadow-neutral-300">
@@ -112,7 +156,11 @@ export default function MessageArea({
                       <Loading />
                     </div>
                   ) : messages.length === 0 ? (
-                    <span>{`Start messaging by sending "Hello👋"!`}</span>
+                    <div className="flex h-full w-full items-center justify-center">
+                      <span className="animate-bounce font-light text-3xl">
+                        Start messaging by sending "Hello👋"!
+                      </span>
+                    </div>
                   ) : (
                     groupMessages(messages).map((messageGroup) => (
                       <MessageDisplay

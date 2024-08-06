@@ -1,9 +1,9 @@
 import PropTypes from "prop-types";
-import Loading from "./Loading";
+import Loading from "../utils/Loading";
 import MessageBubble from "./MessageBubble";
 
 // images
-import DefaultProfile from "../assets/defaultProfile.png";
+import DefaultProfile from "../../assets/defaultProfile.png";
 
 const MessageDisplay = ({ messages, users, isLoading, menuState }) => {
   const currentUser = JSON.parse(localStorage.getItem("user"));

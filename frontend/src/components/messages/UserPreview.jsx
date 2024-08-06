@@ -1,6 +1,5 @@
 import PropTypes from "prop-types";
-import DefaultProfile from "../assets/defaultProfile.png"; // Adjust the import path as necessary
-import { useState } from "react";
+import DefaultProfile from "../../assets/defaultProfile.png"; // Adjust the import path as necessary
 
 export default function UserPreview({ userInfo }) {
   return (

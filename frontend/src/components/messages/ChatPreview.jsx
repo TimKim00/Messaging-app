@@ -4,8 +4,6 @@ import PropTypes from "prop-types";
 import RoomImage from "./RoomImage";
 
 // images
-import DefaultProfile from "../assets/defaultProfile.png";
-
 export default function ChatPreview({
   roomName,
   chatroom,

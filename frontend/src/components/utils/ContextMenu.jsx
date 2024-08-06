@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import PropTypes from "prop-types";
 
-const ContextMenu = ({ mousePosition, relPosition, menus, onMenuClick }) => {
+const ContextMenu = ({ mousePosition, relPosition, menus, onMenuClick, disabledList=[] }) => {
   const { mouseX, mouseY } = mousePosition;
   const [position, setPosition] = useState(relPosition);
   const menuRef = useRef(null);
@@ -51,12 +51,22 @@ const ContextMenu = ({ mousePosition, relPosition, menus, onMenuClick }) => {
       style={{ top: position.relY, left: position.relX }}
     >
       {menus.map((menu, index) => {
+        const disabled = disabledList.includes(index);
+
         return (
           <li
             key={index}
-            className="p-2 hover:bg-gray-200 cursor-pointer text-sm"
-            onClick={() => onMenuClick(menu)}
-            style={{whiteSpace: 'nowrap'}}
+            className={`p-2 text-sm  ${
+              disabled
+                ? "text-gray-500 cursor-not-allowed"
+                : "hover:bg-gray-200 cursor-pointer"
+            }`}
+            onClick={() => {
+              if (!disabled) {
+                onMenuClick(menu);
+              }
+            }}
+            style={{ whiteSpace: "nowrap" }}
           >
             {menu}
           </li>
@@ -77,6 +87,7 @@ ContextMenu.propTypes = {
     relY: PropTypes.number.isRequired,
   }).isRequired,
   onMenuClick: PropTypes.func.isRequired,
+  disabledList: PropTypes.array,
 };
 
 export default ContextMenu;

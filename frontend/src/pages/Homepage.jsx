@@ -1,5 +1,7 @@
-import Tooltip from "../components/Tooltip";
 import { Link } from "react-router-dom";
+
+// Components
+import Tooltip from "../components/utils/Tooltip";
 
 // HomePage Component
 export default function HomePage() {

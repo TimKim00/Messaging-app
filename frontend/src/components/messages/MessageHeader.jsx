@@ -2,8 +2,8 @@ import PropTypes from "prop-types";
 import RoomImage from "./RoomImage";
 
 // images
-import MessageIcon from "../assets/userIcon-message.svg";
-import Dots from "../assets/vertical-dots.svg";
+import MessageIcon from "../../assets/userIcon-message.svg";
+import Dots from "../../assets/vertical-dots.svg";
 
 export default function MessageHeader({ chatroom }) {
   let displayRoomName = "";

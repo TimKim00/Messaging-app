@@ -1,9 +1,15 @@
 import { useState, useEffect } from "react";
-import useLogin from "../../hooks/useLogin";
-import Logo from "../../assets/logo.svg";
-import Loading from "../../components/Loading";
-import Error from "../../components/Error";
 import { Link } from "react-router-dom";
+
+// Hooks
+import useLogin from "../../hooks/useLogin";
+
+// Assets
+import Logo from "../../assets/logo.svg";
+
+// Components
+import Loading from "../../components/utils/Loading";
+import Error from "../../components/utils/Error";
 
 const LoginPage = () => {
   const [username, setUsername] = useState("");

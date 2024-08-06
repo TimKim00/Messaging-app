@@ -102,12 +102,22 @@ io.on("connection", (socket) => {
   socket.on("sendMessage", (message) => {
     const room = message.room;
     const content = message.content;
-    console.log(`Message sent in room: ${room}`)
+    console.log(`Message sent in room: ${room}`);
     io.to(room).emit("receiveMessage", {
       content,
       user: socket.request.user,
     });
   });
+
+  socket.on("deleteMessage", (message) => {
+    const room = message.room;
+    const content = message.content;
+    console.log(`Message removed in room ${room}`);
+    io.to(room).emit("receiveDeletedMessage", {
+      content,
+      user: socket.request.user
+    });
+  })
 
   socket.on("leaveRoom", (room) => {
     socket.leave(room);

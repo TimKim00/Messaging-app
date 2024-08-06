@@ -1,8 +1,9 @@
-import Error from "../../components/Error";
 import PropTypes from "prop-types";
-import ChatPreview from "../../components/ChatPreview";
-import Loading from "../../components/Loading";
 
+// Components
+import ChatPreview from "../../components/messages/ChatPreview";
+import Loading from "../../components/utils/Loading";
+import Error from "../../components/utils/Error";
 export default function UserChatPreviews({
   error,
   chatrooms,

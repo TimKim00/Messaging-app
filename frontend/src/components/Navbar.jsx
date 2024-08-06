@@ -2,7 +2,7 @@ import { useState } from "react";
 import { useUserContext } from "../hooks/useUserContext";
 import { Link } from "react-router-dom";
 import useLogout from "../hooks/useLogout";
-import Error from "./Error";
+import Error from "./utils/Error";
 
 // Icons
 import Home from "../assets/logo.svg";

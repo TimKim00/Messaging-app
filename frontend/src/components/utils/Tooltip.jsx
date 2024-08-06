@@ -19,6 +19,6 @@ export default function Tooltip({
 }
 Tooltip.propTypes = {
   children: PropTypes.any,
-  text: PropTypes.string,
+  text: PropTypes.any,
   direction: PropTypes.string,
 };

@@ -1,9 +1,15 @@
 import { useState } from "react";
-import Logo from "../../assets/logo.svg";
-import Loading from "../../components/Loading";
-import Error from "../../components/Error";
-import useSignup from "../../hooks/useSignup";
 import { Link } from "react-router-dom";
+
+// Assets
+import Logo from "../../assets/logo.svg";
+
+// Hooks
+import useSignup from "../../hooks/useSignup";
+
+// Components
+import Loading from "../../components/utils/Loading";
+import Error from "../../components/utils/Error";
 
 const SignupPage = () => {
   const [username, setUsername] = useState("");

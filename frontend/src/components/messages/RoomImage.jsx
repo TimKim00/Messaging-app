@@ -1,5 +1,5 @@
 import PropTypes from "prop-types";
-import DefaultProfile from "../assets/defaultProfile.png";
+import DefaultProfile from "../../assets/defaultProfile.png";
 
 export default function RoomImage({ users, borderColor = "border-white" }) {
   let profileComponent = <></>;

@@ -1,13 +1,16 @@
 import { useState, useEffect } from "react";
-import useFetchUsers from "../../hooks/useFetchUsers";
-import Error from "../../components/Error";
-import Loading from "../../components/Loading";
-import UserPreview from "../../components/UserPreview";
-
-// Image
-import FriendLogo from "../../assets/friends.svg";
-import DefaultProfile from "../../assets/defaultProfile.png";
 import { useOutletContext } from "react-router-dom";
+
+// Components
+import Error from "../../components/utils/Error";
+import Loading from "../../components/utils/Loading";
+import UserPreview from "../../components/messages/UserPreview";
+
+// Hooks
+import useFetchUsers from "../../hooks/useFetchUsers";
+
+// assets
+import FriendLogo from "../../assets/friends.svg";
 
 export default function UserPage() {
   // Retreive the list of users.
@@ -16,6 +19,7 @@ export default function UserPage() {
   const [showFriends, setShowFriends] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
   const onlineUsers = useOutletContext();
+  const currentUser = JSON.parse(localStorage.getItem("user"));
 
   useEffect(() => {
     fetchUsers();
@@ -24,8 +28,20 @@ export default function UserPage() {
   useEffect(() => {
     const onlineSet = new Set(onlineUsers.map((info) => info.user.username)); // Hashset.
     const tempArr = [];
+    let candidates = [];
 
-    globalUsers.forEach((user) => {
+    if (showFriends) {
+      const friendSet = new Set(currentUser.friends);
+      globalUsers.forEach((user) => {
+        if (friendSet.has(user._id)) {
+          candidates.push(user);
+        }
+      });
+    } else {
+      candidates = globalUsers;
+    }
+
+    candidates.forEach((user) => {
       if (onlineSet.has(user.username)) {
         tempArr.push({ user, online: true });
       } else {
@@ -40,7 +56,7 @@ export default function UserPage() {
     });
 
     setParsedUsers(tempArr);
-  }, [globalUsers, onlineUsers]);
+  }, [globalUsers, onlineUsers, showFriends, currentUser._id]);
 
   return (
     <main className="grid h-full" style={{ gridTemplateColumns: "1fr 2.5fr" }}>
@@ -72,7 +88,9 @@ export default function UserPage() {
           <div>
             {error && <Error error={error} />}
             {isLoading ? (
-              <Loading />
+              <div className="h-full flex items-center justify-center">
+                <Loading />
+              </div>
             ) : (
               <>
                 {parsedUsers.map((userInfo) => (

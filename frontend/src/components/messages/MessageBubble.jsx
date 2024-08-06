@@ -1,7 +1,12 @@
 import format from "date-fns/format";
 import { useState, useEffect, useRef } from "react";
 import PropTypes from "prop-types";
-import ContextMenu from "./ContextMenu";
+
+// Components
+import ContextMenu from "./../utils/ContextMenu";
+
+// Hooks
+import useDeleteMessage from "../../hooks/useDeleteMessage";
 
 const MessageBubble = ({
   message,
@@ -13,6 +18,7 @@ const MessageBubble = ({
   const [contextMenu, setContextMenu] = useState(null);
   const { menuMessage, setMenuMessage } = menuState;
   const messageRef = useRef(null);
+  const { deleteMessage } = useDeleteMessage();
 
   const handleContextMenu = (e) => {
     e.preventDefault();
@@ -54,8 +60,13 @@ const MessageBubble = ({
   }, [menuMessage, message]);
 
   const handleMenuClick = (action) => {
-    window.alert(`${action} is not implemented yet!`)
     setContextMenu(null);
+
+    if (action === "Delete") {
+      deleteMessage(message.roomId, message);
+    } else {
+      window.alert(`${action} is not implemented yet!`);
+    }
   };
 
   return (
@@ -91,7 +102,7 @@ const MessageBubble = ({
             className="rounded-lg mt-2"
           />
         ) : (
-          <p className="mt-2">{message.message}</p>
+          <p className="mt-1">{message.message}</p>
         )}
         {isFirst && (
           <div
@@ -127,6 +138,7 @@ const MessageBubble = ({
           }}
           menus={["Reply", "Delete", "Add Reaction"]}
           onMenuClick={handleMenuClick}
+          disabledList={isCurrentUser ? [] : [1]}
         />
       )}
     </div>
