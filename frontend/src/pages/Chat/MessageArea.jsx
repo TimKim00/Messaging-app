@@ -24,6 +24,8 @@ export default function MessageArea({
   activeChat,
 }) {
   const [chatroom, setChatroom] = useState(null);
+  const [messageDeletedRecently, setmessageDeletedRecently] = useState(false);
+  const recentDate = useRef(null);
   const { error, fetchChatInfo, isLoading, messages, setMessages } =
     useFetchMessages();
 
@@ -56,11 +58,15 @@ export default function MessageArea({
   }, [chatroom && chatroom._id]);
 
   useEffect(() => {
-    messageEndRef.current?.scrollIntoView({
-      behavior: "smooth",
-      block: "end",
-      inline: "nearest",
-    });
+    if (messageDeletedRecently) {
+      setmessageDeletedRecently(false);
+    } else {
+      messageEndRef.current?.scrollIntoView({
+        behavior: "smooth",
+        block: "end",
+        inline: "nearest",
+      });
+    }
   }, [messages]);
 
   // Handle sockets
@@ -118,6 +124,8 @@ export default function MessageArea({
           room._id === chatroomToUpdate._id ? updatedChatroom : room
         );
       });
+
+      setmessageDeletedRecently(true);
     };
 
     socket.on("receiveMessage", handleNewMessage);
@@ -162,16 +170,19 @@ export default function MessageArea({
                       </span>
                     </div>
                   ) : (
-                    groupMessages(messages).map((messageGroup) => (
-                      <MessageDisplay
-                        key={messageGroup[0]._id}
-                        messages={messageGroup}
-                        setMessages={setMessages}
-                        users={chatroom.users}
-                        isLoading={isLoading && isRoomLoading}
-                        menuState={{ menuMessage, setMenuMessage }}
-                      />
-                    ))
+                    groupMessages(messages).map((messageGroup) => {
+                      return (
+                        <MessageDisplay
+                          key={messageGroup[0]._id}
+                          messages={messageGroup}
+                          setMessages={setMessages}
+                          users={chatroom.users}
+                          isLoading={isLoading && isRoomLoading}
+                          menuState={{ menuMessage, setMenuMessage }}
+                          dateRef={{ recentDate }}
+                        />
+                      )
+                    })
                   )}
 
                   <div ref={messageEndRef}></div>

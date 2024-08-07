@@ -1,14 +1,18 @@
 import PropTypes from "prop-types";
 import Loading from "../utils/Loading";
 import MessageBubble from "./MessageBubble";
+import { format } from "date-fns";
+import DateDivider from "./DateDivider";
 
 // images
 import DefaultProfile from "../../assets/defaultProfile.png";
 
-const MessageDisplay = ({ messages, users, isLoading, menuState }) => {
+const MessageDisplay = ({ messages, users, isLoading, menuState, dateRef }) => {
   const currentUser = JSON.parse(localStorage.getItem("user"));
   const user = users.find((user) => user._id === messages[0].userId);
   const isCurrentUser = messages[0].userId === currentUser._id;
+
+  console.log(dateRef.current);
 
   return (
     <section>
@@ -30,32 +34,36 @@ const MessageDisplay = ({ messages, users, isLoading, menuState }) => {
               <div>
                 <span className="text-sm text-gray-700">{user.username}</span>
                 <div className="flex flex-col gap-2">
-                  {messages.map((message, index) => (
-                    <MessageBubble
-                      key={index}
-                      message={message}
-                      isCurrentUser={false}
-                      user={user}
-                      isFirst={index === 0}
-                      menuState={menuState}
-                    />
-                  ))}
+                  {messages.map((message, index) => {
+                    return (
+                      <MessageBubble
+                        key={index}
+                        message={message}
+                        isCurrentUser={false}
+                        user={user}
+                        isFirst={index === 0}
+                        menuState={menuState}
+                      />
+                    );
+                  })}
                 </div>
               </div>
             </div>
           )}
           {isCurrentUser && (
             <div className="flex flex-col gap-2">
-              {messages.map((message, index) => (
-                <MessageBubble
-                  key={index}
-                  message={message}
-                  isCurrentUser={true}
-                  user={currentUser}
-                  isFirst={index === 0}
-                  menuState={menuState}
-                />
-              ))}
+              {messages.map((message, index) => {
+                return (
+                  <MessageBubble
+                    key={index}
+                    message={message}
+                    isCurrentUser={true}
+                    user={currentUser}
+                    isFirst={index === 0}
+                    menuState={menuState}
+                  />
+                );
+              })}
             </div>
           )}
         </div>
@@ -69,7 +77,8 @@ MessageDisplay.propTypes = {
   users: PropTypes.any.isRequired,
   setMessages: PropTypes.func.isRequired,
   isLoading: PropTypes.bool,
-  menuState: PropTypes.any,
+  menuState: PropTypes.object,
+  dateRef: PropTypes.object,
 };
 
 export default MessageDisplay;
