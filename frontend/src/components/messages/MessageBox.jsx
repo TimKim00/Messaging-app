@@ -8,17 +8,16 @@ import ContextMenu from "./../utils/ContextMenu";
 // Hooks
 import useDeleteMessage from "../../hooks/useDeleteMessage";
 
-const MessageBubble = ({
-  message,
-  isCurrentUser,
-  user,
-  isFirst,
-  menuState,
-}) => {
+// Assets
+import DefaultProfile from "../../assets/defaultProfile.png";
+
+const MessageBox = ({ message, isCurrentUser, user, isFirst, menuState }) => {
   const [contextMenu, setContextMenu] = useState(null);
   const { menuMessage, setMenuMessage } = menuState;
   const messageRef = useRef(null);
   const { deleteMessage } = useDeleteMessage();
+
+  console.log(isFirst);
 
   const handleContextMenu = (e) => {
     e.preventDefault();
@@ -72,17 +71,102 @@ const MessageBubble = ({
   return (
     <div
       ref={messageRef}
-      onContextMenu={handleContextMenu}
       className={`flex relative ${
         isCurrentUser ? "justify-end" : "justify-start"
-      } mb-1`}
+      } px-4 mb-1 ${isFirst && "mt-3"}`}
     >
-      {isCurrentUser && (
-        <span className="flex justify-between items-center text-xs text-gray-600 mr-2">
-          {format(new Date(message.createTime), "p")}
-        </span>
+      {isCurrentUser ? (
+        <>
+          <div className="flex">
+            {/* Date */}
+            <span className="flex justify-between items-center text-xs text-gray-600 mr-2">
+              {format(new Date(message.createTime), "p")}
+            </span>
+            {/* Message */}
+            <div
+              className={`relative text-pretty inline-block bg-blue-500 text-white text-right px-4 pt-1 pb-2 max-w-xl rounded-lg ${
+                isFirst && "speech-bubble"
+              }`}
+              onContextMenu={handleContextMenu}
+            >
+              {message.isImage ? (
+                <img
+                  src={message.message}
+                  alt="Message"
+                  className="rounded-lg mt-2"
+                />
+              ) : (
+                <p className="mt-1">{message.message}</p>
+              )}
+            </div>
+          </div>
+        </>
+      ) : (
+        <>
+          <div className="flex">
+            {isFirst ? (
+              <div className="flex gap-1">
+                <img
+                  src={user.coverImage || DefaultProfile}
+                  alt={user.name}
+                  className="w-10 h-10 rounded-[16px] mr-3"
+                />
+                <div className="flex flex-col gap-1">
+                  <span className="text-sm text-gray-700">{user.username}</span>
+                  <div className="flex gap-2">
+                    {/* Message */}
+                    <div
+                      className={`relative text-pretty inline-block bg-gray-300 text-gray-900 text-left px-4 pt-1 pb-2 rounded-lg ${
+                        isFirst ? "speech-bubble-other" : ""
+                      }`}
+                      onContextMenu={handleContextMenu}
+                    >
+                      {message.isImage ? (
+                        <img
+                          src={message.message}
+                          alt="Message"
+                          className="rounded-lg mt-2"
+                        />
+                      ) : (
+                        <p className="mt-1">{message.message}</p>
+                      )}
+                    </div>
+                    {/* Date */}
+                    <span className="flex justify-between items-center text-xs text-gray-600 mr-2">
+                      {format(new Date(message.createTime), "p")}
+                    </span>
+                  </div>
+                </div>
+              </div>
+            ) : (
+              <div className="flex gap-2">
+                {/* Message */}
+                <div
+                  className={`relative ml-14 text-pretty inline-block bg-gray-300 text-gray-900 text-left px-4 pt-1 pb-2 rounded-lg ${
+                    isFirst ? "speech-bubble-other" : ""
+                  }`}
+                  onContextMenu={handleContextMenu}
+                >
+                  {message.isImage ? (
+                    <img
+                      src={message.message}
+                      alt="Message"
+                      className="rounded-lg mt-2"
+                    />
+                  ) : (
+                    <p className="mt-1">{message.message}</p>
+                  )}
+                </div>
+                {/* Date */}
+                <span className="flex justify-between items-center text-xs text-gray-600 mr-2">
+                  {format(new Date(message.createTime), "p")}
+                </span>
+              </div>
+            )}
+          </div>
+        </>
       )}
-      <div
+      {/* <div
         className={`relative inline-block ${
           isCurrentUser
             ? "bg-blue-500 text-white text-right"
@@ -125,7 +209,7 @@ const MessageBubble = ({
             </span>
           </>
         )}
-      </div>
+      </div> */}
       {contextMenu && (
         <ContextMenu
           mousePosition={{
@@ -145,7 +229,7 @@ const MessageBubble = ({
   );
 };
 
-MessageBubble.propTypes = {
+MessageBox.propTypes = {
   message: PropTypes.object.isRequired,
   isCurrentUser: PropTypes.bool.isRequired,
   user: PropTypes.object.isRequired,
@@ -153,4 +237,4 @@ MessageBubble.propTypes = {
   menuState: PropTypes.any,
 };
 
-export default MessageBubble;
+export default MessageBox;

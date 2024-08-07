@@ -1,5 +1,6 @@
 import { useEffect, useState, useRef } from "react";
 import PropTypes from "prop-types";
+import { format } from "date-fns";
 
 // Hooks
 import useFetchMessages from "../../hooks/useFetchMessages";
@@ -8,12 +9,12 @@ import useFetchMessages from "../../hooks/useFetchMessages";
 import Loading from "../../components/utils/Loading";
 import Error from "../../components/utils/Error";
 import MessageIntro from "../../components/messages/MessageIntro";
-import MessageDisplay from "../../components/messages/MessageDisplay";
 import SendMessage from "../../components/messages/sendMessage";
 import MessageHeader from "../../components/messages/MessageHeader";
+import MessageBox from "../../components/messages/MessageBox";
+import DateDivider from "../../components/messages/DateDivider";
 
 // util functions
-import { groupMessages } from "../../utils";
 import { socket } from "../../socket";
 
 export default function MessageArea({
@@ -25,7 +26,6 @@ export default function MessageArea({
 }) {
   const [chatroom, setChatroom] = useState(null);
   const [messageDeletedRecently, setmessageDeletedRecently] = useState(false);
-  const recentDate = useRef(null);
   const { error, fetchChatInfo, isLoading, messages, setMessages } =
     useFetchMessages();
 
@@ -33,6 +33,12 @@ export default function MessageArea({
 
   const messageEndRef = useRef(null);
   const chatroomRef = useRef(chatroom);
+  const recentDate = useRef(null);
+  const lastMessage = useRef(null);
+
+  const currentUser = JSON.parse(localStorage.getItem("user"));
+
+  const separateThreshold = 20 * 60 * 1000; // if it has been 20 minutes since last message, we create a new message thread.
 
   useEffect(() => {
     const setChatInfo = () => {
@@ -170,18 +176,52 @@ export default function MessageArea({
                       </span>
                     </div>
                   ) : (
-                    groupMessages(messages).map((messageGroup) => {
+                    // On development, the first ever message will always not be marked.
+                    messages.map((message) => {
+                      let isFirst = false;
+                      if (
+                        lastMessage.current === null ||
+                        lastMessage.current.userId !== message.userId ||
+                        new Date(message.createTime) -
+                          new Date(lastMessage.current.createTime) >=
+                          separateThreshold
+                      ) {
+                        isFirst = true;
+                      }
+
+                      console.log(lastMessage.current);
+
+                      const user = chatroom.users.find(
+                        (user) => user._id === message.userId
+                      );
+                      const isCurrentUser = user._id === currentUser._id;
+
+                      const formattedDate = format(
+                        message.createTime,
+                        "EEEE, MMMM d, yyyy"
+                      );
+
+                      const reformat = recentDate.current !== formattedDate;
+                      if (reformat) recentDate.current = formattedDate;
+
+                      lastMessage.current = message;
+
                       return (
-                        <MessageDisplay
-                          key={messageGroup[0]._id}
-                          messages={messageGroup}
-                          setMessages={setMessages}
-                          users={chatroom.users}
-                          isLoading={isLoading && isRoomLoading}
-                          menuState={{ menuMessage, setMenuMessage }}
-                          dateRef={{ recentDate }}
-                        />
-                      )
+                        <div key={message._id} className="">
+                          {reformat ? (
+                            <DateDivider date={formattedDate} />
+                          ) : (
+                            <></>
+                          )}
+                          <MessageBox
+                            message={message}
+                            isCurrentUser={isCurrentUser}
+                            user={user}
+                            isFirst={isFirst}
+                            menuState={{ menuMessage, setMenuMessage }}
+                          />
+                        </div>
+                      );
                     })
                   )}
 
