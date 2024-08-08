@@ -97,7 +97,7 @@ export default function ChatPreview({
               <>{`Chat with ${displayRoomName}!`}</>
             )}
           </div>
-          {unreads === 0 ? (
+          {unreads !== 0 ? (
             <span className="bg-indigo-500 text-white text-xs font-bold w-6 h-6 flex items-center justify-center rounded-full flex-shrink-0">
               {unreads}
             </span>

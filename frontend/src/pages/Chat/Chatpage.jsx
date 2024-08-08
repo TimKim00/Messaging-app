@@ -10,7 +10,7 @@ export default function ChatPage() {
   const { user } = useUserContext();
   const { error, fetchChatInfo, isLoading, chatrooms, setChatrooms } =
     useFetchUserChats();
-  const [activeChat, setActiveChat] = useState(null);
+  const [activeChat, setActiveChat] = useState(String(window.location.search) || null);
 
   useEffect(() => {
     fetchChatInfo();

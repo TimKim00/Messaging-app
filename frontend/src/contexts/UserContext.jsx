@@ -6,9 +6,9 @@ export const UserContext = createContext(null);
 const authReducer = (state, action) => {
   switch (action.type) {
     case "AUTH_VALID":
-      return { ...state, user: action.payload, authReady: true };
+      return { ...state, user: action.payload, authReady: true};
     case "AUTH_INVALID":
-      return { ...state, user: null, authReady: true };
+      return { ...state, user: null, authReady: true};
     case "LOGOUT":
       return {...state, user: null, authReady: false}
     default:

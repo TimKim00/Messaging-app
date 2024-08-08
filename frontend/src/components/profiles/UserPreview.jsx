@@ -1,14 +1,19 @@
 import PropTypes from "prop-types";
 import DefaultProfile from "../../assets/defaultProfile.png"; // Adjust the import path as necessary
+import { useState } from "react";
 
-export default function UserPreview({ userInfo }) {
+export default function UserPreview({ userInfo, onClick }) {
   return (
-    <div className="flex items-center gap-4 m-3.5 overflow-auto text-lg font-semibold">
+    <div
+      onClick={onClick}
+      className="flex items-center gap-4 px-3.5 py-2 overflow-auto text-lg rounded-lg font-semibold transition duration-500 transform hover:bg-indigo-100 hover:cursor-pointer"
+    >
       <div className="relative">
         <img
           src={userInfo.user.coverImage || DefaultProfile}
           className="w-10 h-10 rounded-[16px]"
           alt="User Cover"
+          draggable={false}
         />
         <div
           className={`absolute bottom-0 right-0 w-3 h-3 rounded-full ${
@@ -30,4 +35,5 @@ UserPreview.propTypes = {
     }),
     online: PropTypes.bool,
   }).isRequired,
+  onClick: PropTypes.func.isRequired,
 };

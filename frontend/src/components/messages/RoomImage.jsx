@@ -10,6 +10,7 @@ export default function RoomImage({ users, borderColor = "border-white" }) {
         src={users[0].coverImage || DefaultProfile}
         alt=""
         className={`w-11 h-11 rounded-[16px] ${borderColor}`}
+        draggable={false}
       />
     );
   } else if (users.length === 2) {
@@ -19,11 +20,13 @@ export default function RoomImage({ users, borderColor = "border-white" }) {
           src={users[1].coverImage || DefaultProfile}
           alt=""
           className={`absolute z-0 right-0 bottom-0 w-7 h-7 rounded-[10px] ${borderColor}`}
+          draggable={false}
         />
         <img
           src={users[0].coverImage || DefaultProfile}
           alt=""
           className={`absolute z-0 -left-1 -top-1 w-7 h-7 rounded-[10px] box-content border-2 ${borderColor}`}
+          draggable={false}
         />
       </div>
     );
@@ -34,16 +37,19 @@ export default function RoomImage({ users, borderColor = "border-white" }) {
           src={users[1].coverImage || DefaultProfile}
           alt=""
           className={`absolute bottom-0 -left-1 w-6 h-6 rounded-[9px] box-content border-2 ${borderColor}`}
+          draggable={false}
         />
         <img
           src={users[2].coverImage || DefaultProfile}
           alt=""
           className={`absolute bottom-0 -right-1 w-6 h-6 rounded-[9px] box-content border-2 ${borderColor}`}
+          draggable={false}
         />
         <img
           src={users[0].coverImage || DefaultProfile}
           alt=""
           className={`absolute -top-1 left-2 w-6 h-6 rounded-[9px] box-content border-2 ${borderColor}`}
+          draggable={false}
         />
       </div>
     );
@@ -54,21 +60,25 @@ export default function RoomImage({ users, borderColor = "border-white" }) {
           src={users[0].coverImage || DefaultProfile}
           alt=""
           className={`absolute top-0 w-5 h-5 rounded-[7px] ${borderColor}`}
+          draggable={false}
         />
         <img
           src={users[1].coverImage || DefaultProfile}
           alt=""
           className={`absolute top-0 right-0 w-5 h-5 rounded-[7px] ${borderColor}`}
+          draggable={false}
         />
         <img
           src={users[2].coverImage || DefaultProfile}
           alt=""
           className={`absolute bottom-0 left-0 w-5 h-5 rounded-[7px] ${borderColor}`}
+          draggable={false}
         />
         <img
           src={users[3].coverImage || DefaultProfile}
           alt=""
           className={`absolute bottom-0 right-0 w-5 h-5 rounded-[7px] ${borderColor}`}
+          draggable={false}
         />
       </div>
     );

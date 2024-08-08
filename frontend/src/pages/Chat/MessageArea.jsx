@@ -209,7 +209,7 @@ export default function MessageArea({
                       return (
                         <div key={message._id} className="">
                           {reformat ? (
-                            <DateDivider date={formattedDate} />
+                            <DateDivider date={formattedDate}/>
                           ) : (
                             <></>
                           )}

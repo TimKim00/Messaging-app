@@ -1,4 +1,4 @@
-import { Outlet } from "react-router-dom";
+import { Outlet, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
 
 // socket
@@ -40,6 +40,10 @@ export default function Root() {
 
   if (!authReady) {
     return <Loading dim={16} />;
+  }
+
+  if (!user) {
+    return <Navigate to="login" replace={true} reloadDocument></Navigate>
   }
 
   return (

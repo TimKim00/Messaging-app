@@ -29,7 +29,7 @@ exports.getAllChatrooms = asyncHandler(async (req, res, next) => {
 });
 
 exports.createChatroom = [
-  validator.checkRoomSchema(),
+  // validator.checkRoomSchema(),
 
   asyncHandler(async (req, res, next) => {
     const errors = validationResult(req);
@@ -44,6 +44,15 @@ exports.createChatroom = [
     });
 
     await newRoom.save();
+
+    await Promise.all(
+      roomInfo.users.map(user =>
+        User.findOneAndUpdate(
+          { _id: user._id },
+          { $push: { rooms: newRoom._id } }
+        )
+      )
+    );
 
     return res
       .status(201)

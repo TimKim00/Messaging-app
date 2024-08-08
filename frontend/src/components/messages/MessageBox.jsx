@@ -17,8 +17,6 @@ const MessageBox = ({ message, isCurrentUser, user, isFirst, menuState }) => {
   const messageRef = useRef(null);
   const { deleteMessage } = useDeleteMessage();
 
-  console.log(isFirst);
-
   const handleContextMenu = (e) => {
     e.preventDefault();
     const sectionRect = messageRef.current.getBoundingClientRect();
@@ -166,50 +164,6 @@ const MessageBox = ({ message, isCurrentUser, user, isFirst, menuState }) => {
           </div>
         </>
       )}
-      {/* <div
-        className={`relative inline-block ${
-          isCurrentUser
-            ? "bg-blue-500 text-white text-right"
-            : "bg-gray-300 text-gray-900 text-left"
-        } px-4 pt-1 pb-2 rounded-lg ${
-          isFirst
-            ? !isCurrentUser
-              ? "speech-bubble-other"
-              : "speech-bubble"
-            : ""
-        }`}
-      >
-        {message.isImage ? (
-          <img
-            src={message.message}
-            alt="Message"
-            className="rounded-lg mt-2"
-          />
-        ) : (
-          <p className="mt-1">{message.message}</p>
-        )}
-        {isFirst && (
-          <div
-            className={`absolute ${
-              isCurrentUser ? "right-0 mr-2" : "left-0 ml-2"
-            } top-1/2 w-0 h-0 border-t-8 border-t-transparent border-b-8 border-b-transparent ${
-              isCurrentUser
-                ? "border-l-8 border-l-blue-500"
-                : "border-r-8 border-r-gray-300"
-            } transform -translate-y-1/2`}
-          ></div>
-        )}
-      </div>
-      <div className="flex justify-between items-center">
-        {!isCurrentUser && (
-          <>
-            <span className="text-sm font-semibold">{user.name}</span>
-            <span className="text-xs text-gray-600 ml-2">
-              {format(new Date(message.createTime), "p")}
-            </span>
-          </>
-        )}
-      </div> */}
       {contextMenu && (
         <ContextMenu
           mousePosition={{

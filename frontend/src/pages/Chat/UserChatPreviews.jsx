@@ -4,6 +4,8 @@ import PropTypes from "prop-types";
 import ChatPreview from "../../components/messages/ChatPreview";
 import Loading from "../../components/utils/Loading";
 import Error from "../../components/utils/Error";
+import Tooltip from "../../components/utils/Tooltip";
+import { Link } from "react-router-dom";
 export default function UserChatPreviews({
   error,
   chatrooms,
@@ -27,7 +29,7 @@ export default function UserChatPreviews({
       <div
         className={`${
           isLoading ? "opacity-50" : "opacity-100"
-        } transition-opacity duration-300`}
+        } transition-opacity duration-300 h-full`}
       >
         {chatrooms &&
           chatrooms
@@ -50,6 +52,11 @@ export default function UserChatPreviews({
                 />
               </div>
             ))}
+        {chatrooms.length === 0 && (
+          <div className="flex animate-pulse h-full items-center font-light text-center text-3xl text-wrap-pretty">
+            <div>Go to{" "} <Tooltip text={<Link to="/users"><p className="text-base">click me!</p></Link>}>users page</Tooltip>  to start messaging!</div>
+          </div>
+        )}
       </div>
     </section>
   );

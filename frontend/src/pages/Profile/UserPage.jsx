@@ -4,7 +4,8 @@ import { useOutletContext } from "react-router-dom";
 // Components
 import Error from "../../components/utils/Error";
 import Loading from "../../components/utils/Loading";
-import UserPreview from "../../components/messages/UserPreview";
+import UserPreview from "../../components/profiles/UserPreview";
+import Profile from "../../components/profiles/Profile";
 
 // Hooks
 import useFetchUsers from "../../hooks/useFetchUsers";
@@ -18,6 +19,7 @@ export default function UserPage() {
   const [parsedUsers, setParsedUsers] = useState([]);
   const [showFriends, setShowFriends] = useState(false);
   const [searchQuery, setSearchQuery] = useState("");
+  const [selectedUser, setSelectedUser] = useState(null);
   const onlineUsers = useOutletContext();
   const currentUser = JSON.parse(localStorage.getItem("user"));
 
@@ -60,46 +62,54 @@ export default function UserPage() {
 
   return (
     <main className="grid h-full" style={{ gridTemplateColumns: "1fr 2.5fr" }}>
-      <section className="min-w-96 flex bg-slate-500">
-        <div className="m-5 bg-slate-400 flex-grow rounded">
+      <section className="min-w-96 flex">
+        <div className="bg-white z-1 flex-grow p-6 shadow-2xl shadow-indigo-200 border border-gray-200">
           {/* Search Bar */}
           <input
             type="text"
             placeholder="Find or start a conversation"
             value={searchQuery}
             onChange={(e) => setSearchQuery(e.target.value)}
-            className="w-11/12 p-2 mx-3.5 mt-6 mb-2 border border-gray-300 rounded"
+            className="w-full p-3 mb-2 border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-indigo-500 transition-all duration-300"
           />
 
           {/* Friends toggle */}
           <div
-            className={`w-11/12 mx-3.5 py-2 px-5 flex gap-5 items-center rounded ${
-              showFriends ? "bg-blue-100" : "bg-inherit"
-            }`}
+            className={`w-full px-5 py-2 flex gap-5 items-center rounded-lg cursor-pointer transition-all duration-300 transform ${
+              showFriends ? "bg-indigo-200" : ""
+            } hover:bg-indigo-200`}
             onClick={() => setShowFriends((prevState) => !prevState)}
           >
-            <img src={FriendLogo} alt="" className="w-8" />
+            <img
+              src={FriendLogo}
+              alt="Friends Logo"
+              className="w-10 h-10"
+              draggable={false}
+            />
             <p className="font-semibold">Friends</p>
           </div>
 
-          <hr className="my-2 border-gray-700 mx-4" />
+          <hr className="my-2 border-gray-300" />
 
           {/* User List */}
           <div>
-            {error && <Error error={error} />}
+            {error && <Error error={error} redirect={true} />}
             {isLoading ? (
               <div className="h-full flex items-center justify-center">
                 <Loading />
               </div>
             ) : (
-              <>
+              <div className="transition-all">
                 {parsedUsers.map((userInfo) => (
-                  <UserPreview key={userInfo.user._id} userInfo={userInfo} />
+                  <UserPreview key={userInfo.user._id} userInfo={userInfo} onClick={() => setSelectedUser(userInfo)}/>
                 ))}
-              </>
+              </div>
             )}
           </div>
         </div>
+      </section>
+      <section>
+        {selectedUser ? (<Profile user={selectedUser.user}></Profile>) : (<></>)}
       </section>
     </main>
   );

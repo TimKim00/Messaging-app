@@ -26,11 +26,7 @@ const useFetchUserChats = () => {
       json.allChatrooms.forEach((chatroom) => {
         socket.emit("joinRoom", chatroom._id);
       })
-      if (json.roomCount === 0) {
-        setError("You have no messages!");
-      } else {
-        setError(null);
-      }
+      setError(null);
     }
   };
   return { error, fetchChatInfo, isLoading, chatrooms, setChatrooms };

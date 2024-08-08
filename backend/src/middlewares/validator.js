@@ -48,11 +48,7 @@ exports.checkUserSchema = () => {
 exports.checkRoomSchema = () => {
   return [
     checkSchema({
-      "roomInfo.name": {
-        isString: true,
-        errorMessage: "Must have a valid name",
-      },
-      "roomInfo.users": { isMongoId: true, isArray: { options: { min: 2 } } },
+      "roomInfo.users": { isArray: { options: { min: 2 } } },
     }),
   ];
 };

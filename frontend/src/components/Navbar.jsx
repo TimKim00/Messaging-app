@@ -10,14 +10,19 @@ import Message from "../assets/messageIcon.svg";
 import UserIcon from "../assets/userIcon.svg";
 import DefaultProfile from "../assets/defaultProfile.png";
 import LogoutIcon from "../assets/logoutIcon.svg";
+import { useEffect } from "react";
 
 const Navbar = () => {
   const { user } = useUserContext();
-  const [toggledIcon, setToggledIcon] = useState(String(window.location.pathname).substring(1));
+  const [toggledIcon, setToggledIcon] = useState(
+    String(window.location.pathname).substring(1)
+  );
   const { error, logout } = useLogout();
 
   const handleToggle = (iconId) => {
-    if (iconId !== toggledIcon) { setToggledIcon(toggledIcon !== iconId ? iconId : null); }
+    if (iconId !== toggledIcon) {
+      setToggledIcon(toggledIcon !== iconId ? iconId : null);
+    }
   };
 
   const handleLogout = async (e) => {
@@ -25,6 +30,12 @@ const Navbar = () => {
 
     await logout();
   };
+
+  useEffect(() => {
+    setToggledIcon(String(window.location.pathname).substring(1));
+  }, [window.location.pathname])
+
+
 
   const icons = [
     { id: "chat", label: "Chat", icon: Message, redirect: "/chat" },
@@ -37,7 +48,12 @@ const Navbar = () => {
         <div>
           <Link to="/">
             <button className="home-button px-2 -py-2 ml-1 flex items-center justify-center w-13 h-13">
-              <img src={Home} alt="home icon" className="w-12 h-12" onClick={() => handleToggle("")}/>
+              <img
+                src={Home}
+                alt="home icon"
+                className="w-12 h-12"
+                onClick={() => handleToggle("")}
+              />
             </button>
           </Link>
           <hr className="my-4 border-gray-700 w-3/4 mx-auto" />
@@ -51,6 +67,7 @@ const Navbar = () => {
                     to={redirect}
                     onClick={() => handleToggle(id)}
                     className="-ml-5"
+                    draggable={false}
                   >
                     <button
                       className={`nav-icon p-2 mx-2 mb-4 w-full h-12 flex items-center justify-center ${
@@ -63,6 +80,7 @@ const Navbar = () => {
                         src={icon}
                         alt={`${id} icon`}
                         className="w-7 h-7 invert"
+                        draggable={false}
                       />
                     </button>
                   </Link>
@@ -86,21 +104,14 @@ const Navbar = () => {
         <div>
           <hr className="my-4 border-gray-700 w-3/4 mx-auto" />
           <div className="flex flex-col items-center">
-            <Link to={`/profile/${user._id}`}>
+            <Link to={`/profile`} draggable={false}>
               <button className="profile p-2">
-                {user.coverImage ? (
-                  <img
-                    src={user.coverImage}
-                    alt="profile"
-                    className="rounded-full w-10 h-10"
-                  />
-                ) : (
-                  <img
-                    src={DefaultProfile}
-                    alt="default profile"
-                    className="rounded-full w-10 h-10"
-                  />
-                )}
+                <img
+                  src={user.coverImage || DefaultProfile}
+                  alt="profile"
+                  className="rounded-full w-10 h-10"
+                  draggable={false}
+                />
               </button>
             </Link>
           </div>

@@ -8,10 +8,10 @@ exports.getProfile = asyncHandler(async (req, res, next) => {
   const profile = await Profile.findOne({ userId: userId }).exec();
 
   if (!profile) {
-    return res.json({ message: "No user found" });
+    return res.status(401).json({ message: "No user found" });
   }
 
-  return res.json({
+  return res.status(200).json({
     profile: profile,
     message: "Profiile successfully returned.",
   });

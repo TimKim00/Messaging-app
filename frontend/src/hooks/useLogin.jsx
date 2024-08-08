@@ -28,7 +28,7 @@ const useLogin = () => {
     } else {
       const userObject = JSON.stringify(json.user);
       localStorage.setItem("user", userObject);
-      dispatch({ type: "AUTH_VALID", payload: userObject });
+      dispatch({ type: "AUTH_VALID", payload: userObject});
       setError(null);
 
       navigate("/");

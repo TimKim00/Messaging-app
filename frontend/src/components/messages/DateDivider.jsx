@@ -1,9 +1,16 @@
 import PropTypes from "prop-types";
+import { useRef } from "react";
 
 export default function DateDivider({ date }) {
+  const dateRef = useRef(null);
+
+  const handleScrollToSection = (ref) => {
+    ref.current.scrollIntoView({ behavior: 'smooth' });
+  }
+
   return (
     <div className="flex justify-center m-10">
-      <p className="font-light text-zinc-500">{date}</p>
+      <p ref={dateRef} onClick={() => handleScrollToSection(dateRef)} className="font-light text-zinc-500">{date}</p>
     </div>
   );
 }
