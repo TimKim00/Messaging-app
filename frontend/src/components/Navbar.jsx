@@ -38,15 +38,15 @@ const Navbar = () => {
 
 
   const icons = [
-    { id: "chat", label: "Chat", icon: Message, redirect: "/chat" },
-    { id: "users", label: "User", icon: UserIcon, redirect: "/users" },
+    { id: "chat", label: "Chat", icon: Message, redirect: "./chat" },
+    { id: "users", label: "User", icon: UserIcon, redirect: "./users" },
   ];
 
   return (
     <div className="flex flex-col h-full border-r-2 border-gray-800 bg-gray-900">
       <div className="flex flex-col justify-between h-full py-4">
         <div>
-          <Link to="/">
+          <Link to="./">
             <button className="home-button px-2 -py-2 ml-1 flex items-center justify-center w-13 h-13">
               <img
                 src={Home}
@@ -104,7 +104,7 @@ const Navbar = () => {
         <div>
           <hr className="my-4 border-gray-700 w-3/4 mx-auto" />
           <div className="flex flex-col items-center">
-            <Link to={`/profile`} draggable={false}>
+            <Link to={`./profile`} draggable={false}>
               <button className="profile p-2">
                 <img
                   src={user.coverImage || DefaultProfile}

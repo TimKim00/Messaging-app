@@ -28,7 +28,7 @@ const useSignup = () => {
       dispatch({ type: "AUTH_VALID", payload: userObject });
       setError(null);
 
-      navigate("/");
+      navigate("/fweechat");
       navigate(0);
     } else {
         if (json.errors) {

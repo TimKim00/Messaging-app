@@ -1,83 +1,46 @@
+import React from "react";
 import { Link } from "react-router-dom";
+// import backgroundImage from "./../../assets/backgroundImage.jpg"; // Replace with your actual background image
 
-// Components
-import Tooltip from "../components/utils/Tooltip";
-
-// HomePage Component
 export default function HomePage() {
   return (
-    <div className="container mx-auto p-4 flex flex-col lg:flex-row lg:space-x-4">
-      <aside className="lg:w-1/4 mb-4 lg:mb-0">
-        <div className="p-4 bg-white rounded-lg shadow-md">
-          {/* User Profile Section */}
-          <img
-            src="https://via.placeholder.com/150"
-            alt="Profile"
-            className="w-24 h-24 rounded-full mx-auto"
-          />
-          <h2 className="mt-4 text-xl text-center font-bold">User Name</h2>
-          <p className="mt-2 text-center text-gray-600">
-            <Tooltip direction="left" text={<Link to="/chat" reloadDocument>To UserChat</Link>}>User bio goes here.</Tooltip>
-          </p>
+    <div className="relative w-full h-screen bg-gray-900">
+      {/* Background Image */}
+      <div
+        className="absolute inset-0 bg-cover bg-center"
+        // style={{
+        //   backgroundImage: `url(${backgroundImage})`,
+        // }}
+      ></div>
+      {/* Overlay */}
+      <div className="absolute inset-0 bg-black opacity-50"></div>
+      {/* Content */}
+      <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white">
+        <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
+          Welcome to Our Platform
+        </h1>
+        <p className="text-lg md:text-xl mb-12 animate-fade-in delay-1s">
+          Discover, connect, and grow with our amazing community.
+        </p>
+        <div className="flex space-x-4">
+          <Link
+            to="/signup"
+            className="px-8 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all duration-300 animate-slide-in-left"
+          >
+            Sign Up
+          </Link>
+          <Link
+            to="/login"
+            className="px-8 py-3 bg-transparent border border-white text-white rounded-full hover:bg-white hover:text-gray-900 transition-all duration-300 animate-slide-in-right"
+          >
+            Login
+          </Link>
         </div>
-      </aside>
-      <main className="lg:w-1/2 mb-4 lg:mb-0">
-        {/* Posts Section */}
-        <div className="p-4 bg-white rounded-lg shadow-md mb-4">
-          <div className="flex items-center mb-2">
-            <img
-              src="https://via.placeholder.com/50"
-              alt="User"
-              className="w-10 h-10 rounded-full mr-3"
-            />
-            <div>
-              <h3 className="font-bold">Post User</h3>
-              <p className="text-sm text-gray-500">Timestamp</p>
-            </div>
-          </div>
-          <p>Post content goes here.</p>
-        </div>
-        <div className="p-4 bg-white rounded-lg shadow-md mb-4">
-          <div className="flex items-center mb-2">
-            <img
-              src="https://via.placeholder.com/50"
-              alt="User"
-              className="w-10 h-10 rounded-full mr-3"
-            />
-            <div>
-              <h3 className="font-bold">Post User</h3>
-              <p className="text-sm text-gray-500">Timestamp</p>
-            </div>
-          </div>
-          <p>Post content goes here.</p>
-        </div>
-      </main>
-      <aside className="lg:w-1/4">
-        <div className="p-4 bg-white rounded-lg shadow-md">
-          {/* Suggested Friends Section */}
-          <h2 className="text-xl font-bold mb-4">Suggested Friends</h2>
-          <div className="flex items-center mb-4">
-            <img
-              src="https://via.placeholder.com/50"
-              alt="Friend"
-              className="w-10 h-10 rounded-full mr-3"
-            />
-            <div>
-              <h3 className="font-bold">Friend Name</h3>
-            </div>
-          </div>
-          <div className="flex items-center mb-4">
-            <img
-              src="https://via.placeholder.com/50"
-              alt="Friend"
-              className="w-10 h-10 rounded-full mr-3"
-            />
-            <div>
-              <h3 className="font-bold">Friend Name</h3>
-            </div>
-          </div>
-        </div>
-      </aside>
+      </div>
+      {/* Footer */}
+      <div className="absolute bottom-4 left-0 right-0 text-center text-gray-400">
+        <p>© 2024 TimKim00. All rights reserved.</p>
+      </div>
     </div>
   );
 }

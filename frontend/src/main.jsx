@@ -11,27 +11,32 @@ import LoginPage from "./pages/Auth/LoginPage.jsx";
 import SignupPage from "./pages/Auth/SignupPage.jsx";
 import ProfilePage from "./components/profiles/Profile.jsx";
 import UserPage from "./pages/Profile/UserPage.jsx";
+import Dashboard from "./pages/Dashboard.jsx";
 
 const router = createBrowserRouter(
   [
     {
       path: "/",
+      element: <Homepage />
+    },
+    {
+      path: "/fweechat",
       element: <Root />,
       children: [
         {
-          path: "/",
-          element: <Homepage />
+          path: "/fweechat",
+          element: <Dashboard />
         },
         {
-          path: "/chat",
+          path: "/fweechat/chat",
           element: <Chatpage />,
         },
         {
-          path: "/profile",
+          path: "/fweechat/profile",
           element: <ProfilePage />
         },
         {
-          path: "/users",
+          path: "/fweechat/users",
           element: <UserPage />
         }
       ],
