@@ -5,6 +5,8 @@ const session = require("express-session");
 const passport = require("./src/configs/passport.config");
 const { createServer } = require("node:http");
 const { Server } = require("socket.io");
+const dotenv = require("dotenv");
+dotenv.config();
 const User = require("./src/models/user");
 
 const FRONTEND_ADDRESS = "http://localhost:5173";

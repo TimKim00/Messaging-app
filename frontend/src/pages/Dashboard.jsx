@@ -1,4 +1,5 @@
 import React from 'react';
+import DefaultProfile from "./../assets/defaultProfile.png"
 
 export default function Dashboard() {
   const user = JSON.parse(localStorage.getItem('user'));
@@ -10,7 +11,7 @@ export default function Dashboard() {
           {/* Profile Picture */}
           <img
             className="w-24 h-24 rounded-full border-4 border-indigo-500 shadow-md"
-            src={user.coverImage || 'https://via.placeholder.com/100'}
+            src={user.coverImage || DefaultProfile}
             alt={user.username}
           />
 

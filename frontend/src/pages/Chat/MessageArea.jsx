@@ -155,7 +155,7 @@ export default function MessageArea({
           {error && <Error error={error} errorHeight={"h-screen"} />}
           <div
             className="grid h-full"
-            style={{ gridTemplateRows: "0.4fr 4fr 1fr" }}
+            style={{ gridTemplateRows: "0.4fr 5.1fr 1fr" }}
           >
             {chatroom === null ? (
               <MessageIntro />
@@ -164,7 +164,7 @@ export default function MessageArea({
                 <div className="bg-blue-100">
                   <MessageHeader chatroom={chatroom} />
                 </div>
-                <div className="flex-grow py-4 overflow-y-auto">
+                <div className="flex-grow overflow-y-auto h-full pt-4">
                   {messages === null ? (
                     <div className="flex items-center justify-center">
                       <Loading />
@@ -176,7 +176,6 @@ export default function MessageArea({
                       </span>
                     </div>
                   ) : (
-                    // On development, the first ever message will always not be marked.
                     messages.map((message) => {
                       let isFirst = false;
                       if (
@@ -189,8 +188,6 @@ export default function MessageArea({
                         isFirst = true;
                       }
 
-                      console.log(lastMessage.current);
-
                       const user = chatroom.users.find(
                         (user) => user._id === message.userId
                       );
@@ -201,17 +198,18 @@ export default function MessageArea({
                         "EEEE, MMMM d, yyyy"
                       );
 
-                      const reformat = recentDate.current !== formattedDate;
+                      console.log(lastMessage.current);
+                      console.log(recentDate.current);
+
+                      const reformat = isFirst || recentDate.current !== formattedDate;
                       if (reformat) recentDate.current = formattedDate;
 
                       lastMessage.current = message;
 
                       return (
                         <div key={message._id} className="">
-                          {reformat ? (
+                          {reformat && (
                             <DateDivider date={formattedDate}/>
-                          ) : (
-                            <></>
                           )}
                           <MessageBox
                             message={message}
@@ -222,10 +220,12 @@ export default function MessageArea({
                           />
                         </div>
                       );
-                    })
+                    },
+                    lastMessage.current = null,
+                    recentDate.current = null
+                  )
                   )}
-
-                  <div ref={messageEndRef}></div>
+                  <div ref={messageEndRef} className="pb-4"></div>
                 </div>
                 {/* Send messages */}
                 <SendMessage roomId={chatroom._id} />

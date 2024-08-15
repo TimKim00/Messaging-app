@@ -149,6 +149,8 @@ exports.removeMessage = asyncHandler(async (req, res, next) => {
   }
 
   roomInfo.messages.pull(msgId);
+  roomInfo.updateTime = new Date();
+  roomInfo.recentMessage = roomInfo.messages[0];
   await Message.deleteOne({ _id: msgId }).exec();
   await roomInfo.save();
 

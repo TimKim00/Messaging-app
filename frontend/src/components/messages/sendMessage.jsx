@@ -46,9 +46,8 @@ const SendMessage = ({ roomId }) => {
   };
 
   return (
-    <div className="relative w-full h-full">
-      <div className="absolute bottom-0 left-0 w-full p-4 bg-white shadow-md">
-        <div className="w-full flex items-center bg-gray-100 p-2 rounded-full shadow-inner">
+    <div className="w-full p-4 bg-white">
+        <div className="w-full flex items-center bg-gray-100 p-2 rounded-full">
           <button
             className="text-xl ml-2"
             onClick={() => setShowEmojis(!showEmojis)}
@@ -87,7 +86,6 @@ const SendMessage = ({ roomId }) => {
           </button>
         </div>
       </div>
-    </div>
   );
 };
 

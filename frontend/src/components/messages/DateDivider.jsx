@@ -9,7 +9,7 @@ export default function DateDivider({ date }) {
   }
 
   return (
-    <div className="flex justify-center m-10">
+    <div className="flex justify-center mb-10">
       <p ref={dateRef} onClick={() => handleScrollToSection(dateRef)} className="font-light text-zinc-500">{date}</p>
     </div>
   );

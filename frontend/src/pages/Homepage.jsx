@@ -24,7 +24,7 @@ export default function HomePage() {
         </p>
         <div className="flex space-x-4">
           <Link
-            to="/signup"
+            to="/register"
             className="px-8 py-3 bg-blue-500 text-white rounded-full hover:bg-blue-600 transition-all duration-300 animate-slide-in-left"
           >
             Sign Up
