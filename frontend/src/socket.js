@@ -1,6 +1,6 @@
 import { io } from "socket.io-client";
 
-const URL = "http://localhost:3000";
+const URL = "https://messaging-app-drj8.onrender.com";
 
 export const socket = io(URL, {
   secure: true,
