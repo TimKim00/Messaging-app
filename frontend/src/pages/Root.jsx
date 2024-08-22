@@ -38,13 +38,13 @@ export default function Root() {
     });
   }, [user]);
 
+  useEffect(() => {
+    console.log("hi");
+  }, [])
+
   if (!authReady) {
     return <Loading dim={16} />;
   }
-
-  // if (!user) {
-  //   return <Navigate to="login" replace={true} reloadDocument></Navigate>
-  // }
 
   return (
     <div className="flex h-lvh z-0">
