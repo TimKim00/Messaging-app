@@ -42,9 +42,9 @@ export default function Root() {
     return <Loading dim={16} />;
   }
 
-  if (!user) {
-    return <Navigate to="login" replace={true} reloadDocument></Navigate>
-  }
+  // if (!user) {
+  //   return <Navigate to="login" replace={true} reloadDocument></Navigate>
+  // }
 
   return (
     <div className="flex h-lvh z-0">

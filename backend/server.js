@@ -54,7 +54,7 @@ app.use(
       maxAge: 1000 * 60 * 60 * 12, // 12 hours
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      sameSite: process.env.NODE_ENV === "production" ? "lax" : "lax",
       domain: process.env.NODE_ENV === "production" ? "https://messaging-app-drj8.onrender.com" : "localhost",
     },
   })
