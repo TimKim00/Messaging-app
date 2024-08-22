@@ -51,7 +51,7 @@ app.use(
     resave: false,
     saveUninitialized: false,
     cookie: {
-      maxAge: 1000 * 60, // 12 hours
+      maxAge: 1000 * 60 * 60 * 12, // 12 hours
       secure: process.env.NODE_ENV === "production", // Only set cookies over HTTPS in production
       httpOnly: true, // Prevents JavaScript access to the cookie
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // Adjusts for cross-site requests
