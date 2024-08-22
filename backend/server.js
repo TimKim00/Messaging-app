@@ -9,7 +9,8 @@ const dotenv = require("dotenv");
 dotenv.config();
 const User = require("./src/models/user");
 
-const FRONTEND_ADDRESS = "http://localhost:5173";
+// const FRONTEND_ADDRESS = "http://localhost:5173";
+const FRONTEND_ADDRESS = "https://messaging-app-sigma-seven.vercel.app";
 
 const app = express();
 
@@ -47,7 +48,7 @@ app.use(
     saveUninitialized: false,
     cookie: {
       maxAge: 1000 * 60 * 60 * 12, // 12 hours
-      secure: false,
+      secure: true,
       httpOnly: true,
       sameSite: "lax",
     },

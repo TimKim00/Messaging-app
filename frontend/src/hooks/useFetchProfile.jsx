@@ -6,7 +6,7 @@ const useFetchProfile = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [profile, setProfile] = useState(null);
 
-  const fetchChatInfo = async (userId) => {
+  const fetchProfile = async (userId) => {
     setIsLoading(true);
     setError(null);
 
@@ -27,7 +27,7 @@ const useFetchProfile = () => {
       setProfile(json.profile);
     }
   };
-  return { error, fetchChatInfo, isLoading, profile };
+  return { error, fetchProfile, isLoading, profile };
 };
 
 export default useFetchProfile;

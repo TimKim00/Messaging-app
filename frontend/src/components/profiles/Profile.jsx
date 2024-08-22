@@ -8,9 +8,15 @@ import Error from "./../utils/Error"; // Assume there's an Error component
 import PropTypes from "prop-types";
 import DefaultProfile from "./../../assets/defaultProfile.png";
 import DefaultBackground from "./../../assets/defaultBackground.jpg";
+import useUpdateProfile from "../../hooks/useUpdateProfile";
 
 export default function Profile({ user = "current" }) {
-  const { error, fetchChatInfo, isLoading, profile } = useFetchProfile();
+  const { error, fetchProfile, isLoading, profile } = useFetchProfile();
+  const {
+    error: updateProfileError,
+    updateProfile,
+    isLoading: updateProfileLoading,
+  } = useUpdateProfile();
   const {
     error: updateError,
     updateFriends,
@@ -30,6 +36,8 @@ export default function Profile({ user = "current" }) {
   }
 
   const [isFriend, setIsFriend] = useState(null);
+  const [newProfile, setNewProfile] = useState(null);
+  const [isEditing, setIsEditing] = useState(false);
 
   useEffect(() => {
     setIsFriend(currentUser.friends.includes(user._id));
@@ -37,9 +45,13 @@ export default function Profile({ user = "current" }) {
 
   useEffect(() => {
     if (user !== null) {
-      fetchChatInfo(user._id);
+      fetchProfile(user._id);
     }
   }, [user._id]);
+
+  useEffect(() => {
+    setNewProfile(profile);
+  }, [profile]);
 
   const handleAddRemoveFriend = (friendId) => {
     // Handle add/remove friend logic here
@@ -63,6 +75,17 @@ export default function Profile({ user = "current" }) {
   const handleStartMessaging = (friendId) => {
     createRoom({ users: [currentUser._id, friendId] });
   };
+
+  const [save, setSave] = useState(false);
+
+  useEffect(() => {
+    if (save) {
+      updateProfile(user._id, newProfile);
+      fetchProfile(user._id);
+      setSave(false);
+    }
+  }, [save]);
+
   return (
     <div className="flex flex-col items-center p-6 h-full">
       {error && <Error error={error} />}
@@ -72,7 +95,7 @@ export default function Profile({ user = "current" }) {
         </div>
       )}
       {profile && (
-        <div className="w-full max-w-4xl">
+        <div className="relative w-full max-w-4xl">
           {/* Cover Image */}
           <div className="relative">
             <img
@@ -90,9 +113,9 @@ export default function Profile({ user = "current" }) {
           {/* Profile Details */}
           <div className="bg-white rounded-b-lg shadow-lg p-6 pt-16">
             <div className="text-center">
-              <h1 className="text-2xl font-semibold">{user.username}</h1>
-              <p className="text-gray-600">{profile.bio}</p>
-              <p className="text-gray-600">{profile.email}</p>
+              <h1 className="text-2xl font-semibold">
+                {profile.displayName || user.username}
+              </h1>
               {/* Buttons */}
               <div className="mt-4 flex justify-center space-x-4">
                 {currentUser._id !== user._id && (
@@ -133,7 +156,7 @@ export default function Profile({ user = "current" }) {
                         )) ||
                         (roomId && (
                           <Navigate
-                            to={`/chat?${roomId}`}
+                            to={`/fweechat/chat`}
                             replace={true}
                             reloadDocument
                           ></Navigate>
@@ -146,9 +169,22 @@ export default function Profile({ user = "current" }) {
             </div>
             <div className="mt-6">
               <h2 className="text-xl font-semibold">About Me</h2>
-              <p className="text-gray-600">
-                {profile.bio || "No bio available."}
-              </p>
+              {isEditing ? (
+                <input
+                  className="text-gray-600 border-solid border-2 border-gray-300 rounded-lg pl-1"
+                  name="bio"
+                  defaultValue={profile.bio || ""}
+                  onChange={(e) => {
+                    setNewProfile((prevState) => {
+                      return { ...prevState, bio: e.target.value };
+                    });
+                  }}
+                ></input>
+              ) : (
+                <p className="text-gray-600">
+                  {profile.bio || "No bio available."}
+                </p>
+              )}
             </div>
             <div className="mt-6">
               <h2 className="text-xl font-semibold">Main Skills</h2>
@@ -168,6 +204,39 @@ export default function Profile({ user = "current" }) {
               </div>
             </div>
           </div>
+          {currentUser._id === user._id && (
+            <div className="absolute bottom-0 right-0 p-2">
+              {isEditing ? (
+                <div className="flex gap-2">
+                  <p
+                    className="transition-colors duration-300 hover:cursor-pointer hover:text-black text-gray-400"
+                    onClick={() => {
+                      setSave(true);
+                      setIsEditing(false);
+                    }}
+                  >
+                    Save
+                  </p>
+                  <p
+                    className="transition-colors duration-300 hover:cursor-pointer hover:text-black text-gray-400"
+                    onClick={() => {
+                      setNewProfile(profile);
+                      setIsEditing(false);
+                    }}
+                  >
+                    Cancel
+                  </p>
+                </div>
+              ) : (
+                <p
+                  className="transition-colors duration-300 hover:cursor-pointer hover:text-black text-gray-400"
+                  onClick={() => setIsEditing(true)}
+                >
+                  Edit
+                </p>
+              )}
+            </div>
+          )}
         </div>
       )}
     </div>

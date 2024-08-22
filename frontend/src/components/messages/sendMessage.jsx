@@ -55,7 +55,7 @@ const SendMessage = ({ roomId }) => {
             <img className="w-6 h-auto" src={Emoji} alt="" />
           </button>
           {showEmojis && (
-            <div ref={emojiPickerRef} className="absolute bottom-12 left-4">
+            <div ref={emojiPickerRef} className="absolute bottom-20">
               <Suspense fallback={<div>Loading...</div>}>
                 <EmojiPicker onEmojiClick={onEmojiClick} preload />
               </Suspense>

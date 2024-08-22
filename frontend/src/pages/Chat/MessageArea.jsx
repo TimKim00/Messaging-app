@@ -201,7 +201,7 @@ export default function MessageArea({
                       console.log(lastMessage.current);
                       console.log(recentDate.current);
 
-                      const reformat = isFirst || recentDate.current !== formattedDate;
+                      const reformat = recentDate.current !== formattedDate;
                       if (reformat) recentDate.current = formattedDate;
 
                       lastMessage.current = message;

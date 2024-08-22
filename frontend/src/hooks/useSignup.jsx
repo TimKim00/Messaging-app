@@ -33,8 +33,8 @@ const useSignup = () => {
     } else {
         if (json.errors) {
             setError("Invalid credentials provided.");
-        } else {
-            setError(json.error); // Change
+        } else if (json.status === 409) {
+            setError("Duplicate username"); // Change
         }
     }
   };

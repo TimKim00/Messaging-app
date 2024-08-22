@@ -42,7 +42,7 @@ exports.register = [
     if (duplicateUser) {
       const err = new Error("Invalid username");
       err.status = 409;
-      return next(err);
+      return res.status(409).json(err);
     }
 
     const user = new User({

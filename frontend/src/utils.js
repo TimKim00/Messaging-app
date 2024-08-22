@@ -1,5 +1,8 @@
-const rootPath = "http://localhost:5173";
-const fetchRootPath = "http://localhost:3000";
+// const rootPath = "http://localhost:5173";
+// const fetchRootPath = "http://localhost:3000";
+
+const rootPath = "https://messaging-app-sigma-seven.vercel.app";
+const fetchRootPath = "https://messaging-app-drj8.onrender.com";
 
 const getPath = (type, demo = false) => {
   let path = rootPath;
