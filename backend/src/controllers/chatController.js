@@ -49,7 +49,7 @@ exports.createChatroom = [
     await Promise.all(
       roomInfo.users.map(user =>
         User.findOneAndUpdate(
-          { _id: user._id },
+          { _id: user },
           { $addToSet: { rooms: newRoom._id } } // Avoid duplicates
         ).exec()
       )
