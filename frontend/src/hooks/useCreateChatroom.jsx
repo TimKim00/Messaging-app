@@ -15,36 +15,12 @@ const useCreateChatroom = () => {
     setIsLoading(true);
     setError(null);
 
-    const responseRooms = await fetchWithCredentials(fetchPath("/chat"), {
-      method: "GET",
-    });
-
-    let json = await responseRooms.json()
-    let terminate = false;
-
-    if (!responseRooms.ok) {
-      setIsLoading(false);
-      setError(json.message);
-      terminate = true;
-    } else {
-      const allRooms = json.allChatrooms;
-      allRooms.forEach((room) => {
-        if (roomsEqual(room.users, roomInfo.users)) {
-          setIsLoading(false);
-          setRoomId(room._id); 
-          terminate = true;
-        }
-      });
-    }
-
-    if (terminate) return;
-
     const response = await fetchWithCredentials(fetchPath("/chat"), {
       method: "POST",
       body: JSON.stringify({roomInfo})
     });
 
-    json = await response.json();
+    const json = await response.json();
 
     setIsLoading(false);
     if (!response.ok) {

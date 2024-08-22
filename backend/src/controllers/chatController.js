@@ -50,7 +50,7 @@ exports.createChatroom = [
       roomInfo.users.map(user =>
         User.findOneAndUpdate(
           { _id: user._id },
-          { $push: { rooms: newRoom._id } }
+          { $addToSet: { rooms: newRoom._id } } // Avoid duplicates
         ).exec()
       )
     );
