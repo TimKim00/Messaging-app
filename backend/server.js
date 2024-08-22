@@ -55,6 +55,7 @@ app.use(
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
+      domain: process.env.NODE_ENV === "production" ? "messaging-app-sigma-seven.vercel.app" : "localhost",
     },
   })
 );
