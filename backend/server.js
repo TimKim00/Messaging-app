@@ -41,6 +41,10 @@ app.use(errorHandler);
 connectDB();
 
 // Session authentication
+if (app.get('env') === 'production') {
+  app.set('trust proxy', 1) // trust first proxy
+}
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -50,7 +54,7 @@ app.use(
       maxAge: 1000 * 60 * 60 * 12, // 12 hours
       secure: process.env.NODE_ENV === "production",
       httpOnly: true,
-      sameSite: process.env.NODE_ENV === "production" ? false : "lax",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     },
   })
 );
