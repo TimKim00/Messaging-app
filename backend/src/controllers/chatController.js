@@ -38,6 +38,7 @@ exports.createChatroom = [
     }
 
     const { roomInfo } = req.body;
+    const { users } = roomInfo.users;
 
     const newRoom = new Room({
       ...roomInfo,
@@ -50,7 +51,7 @@ exports.createChatroom = [
         User.findOneAndUpdate(
           { _id: user._id },
           { $push: { rooms: newRoom._id } }
-        )
+        ).exec()
       )
     );
 
