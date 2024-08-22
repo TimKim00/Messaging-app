@@ -1,6 +1,6 @@
 import { Outlet, Navigate } from "react-router-dom";
 import { useState, useEffect } from "react";
-
+import usePollAuth from "../hooks/usePollAuth.jsx";
 // socket
 import { socket } from "../socket.js";
 
@@ -15,6 +15,8 @@ import Loading from "../components/utils/Loading.jsx";
 export default function Root() {
   const { user, authReady } = useUserContext();
   const [onlineUsers, setOnlineUsers] = useState([]);
+
+  const { error, pollAuth, isLoading } = usePollAuth();
 
   useEffect(() => {
     if (!user) {
@@ -39,11 +41,16 @@ export default function Root() {
   }, [user]);
 
   useEffect(() => {
-    console.log("hi");
+    // Poll authentication
+    pollAuth();
   }, [])
 
   if (!authReady) {
     return <Loading dim={16} />;
+  }
+
+  if (isLoading && error) {
+    return <Navigate to="/login" replace={true} reloadDocument/>;
   }
 
   return (
