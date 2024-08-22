@@ -48,9 +48,9 @@ app.use(
     saveUninitialized: false,
     cookie: {
       maxAge: 1000 * 60 * 60 * 12, // 12 hours
-      secure: process.env.NODE_ENV === 'production',
+      secure: process.env.NODE_ENV === "production",
       httpOnly: true,
-      sameSite: process.env.NODE_ENV !== 'production' ? "lax" : "None",
+      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax",
     },
   })
 );
@@ -118,9 +118,9 @@ io.on("connection", (socket) => {
     console.log(`Message removed in room ${room}`);
     io.to(room).emit("receiveDeletedMessage", {
       content,
-      user: socket.request.user
+      user: socket.request.user,
     });
-  })
+  });
 
   socket.on("leaveRoom", (room) => {
     socket.leave(room);
