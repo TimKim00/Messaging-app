@@ -49,7 +49,7 @@ export default function Root() {
     return <Loading dim={16} />;
   }
 
-  if (isLoading && error) {
+  if (!user || isLoading && error) {
     return <Navigate to="/login" replace={true} reloadDocument/>;
   }
 
