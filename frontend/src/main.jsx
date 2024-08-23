@@ -13,12 +13,6 @@ import ProfilePage from "./components/profiles/Profile.jsx";
 import UserPage from "./pages/Profile/UserPage.jsx";
 import Dashboard from "./pages/Dashboard.jsx";
 
-if (import.meta.env.MODE==="production") {
-  console.log("production mode");
-} else {
-  console.log(import.meta.env.MODE);
-}
-
 const router = createBrowserRouter(
   [
     {
