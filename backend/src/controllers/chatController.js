@@ -41,15 +41,17 @@ exports.createChatroom = [
     const { users } = roomInfo.users;
 
     // Check if users exist
-    const userExists = await User.find({ _id: users }).exec();
-    if (userExists.length !== users.length) {
-      return res.status(404).json("Invalid page");
-    }
+    users.forEach(async (user) => {
+      const existingUser = await User.findOne({ _id: user }).exec();
+      if (!existingUser) return res.status(404).json("Invalid users");
+    });
 
     // Check if room already exists
     const roomExists = await Room.findOne({ users: users }).exec();
     if (roomExists) {
-      return res.status(200).json({ message: "Room already exists.", room: roomExists });
+      return res
+        .status(200)
+        .json({ message: "Room already exists.", room: roomExists });
     }
 
     const newRoom = new Room({
@@ -59,7 +61,7 @@ exports.createChatroom = [
     await newRoom.save();
 
     await Promise.all(
-      roomInfo.users.map(user =>
+      roomInfo.users.map((user) =>
         User.findOneAndUpdate(
           { _id: user },
           { $addToSet: { rooms: newRoom._id } } // Avoid duplicates
