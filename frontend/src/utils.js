@@ -1,10 +1,10 @@
 const rootPath =
   import.meta.env.MODE === "production"
-    ? "https://messaging-app-sigma-seven.vercel.app"
+    ? "https://messaging-app-2hys.onrender.com"
     : "http://localhost:5173";
 const fetchRootPath =
   import.meta.env.MODE === "production"
-    ? "https://messaging-app-drj8.onrender.com"
+    ? "https://messaging-app-backend-ywju.onrender.com"
     : "http://localhost:3000";
 
 const getPath = (type, demo = false) => {

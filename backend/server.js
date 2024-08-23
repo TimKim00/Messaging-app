@@ -11,7 +11,7 @@ const User = require("./src/models/user");
 
 const FRONTEND_ADDRESS =
   process.env.NODE_ENV === "production"
-    ? "https://messaging-app-sigma-seven.vercel.app"
+    ? "https://messaging-app-2hys.onrender.com"
     : "http://localhost:5173";
 
 const app = express();
@@ -48,9 +48,12 @@ if (app.get("env") === "production") {
 }
 
 app.use((req, res, next) => {
-  res.header('Access-Control-Allow-Origin', FRONTEND_ADDRESS);
-  res.header('Access-Control-Allow-Credentials', 'true');
-  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  res.header("Access-Control-Allow-Origin", FRONTEND_ADDRESS);
+  res.header("Access-Control-Allow-Credentials", "true");
+  res.header(
+    "Access-Control-Allow-Headers",
+    "Origin, X-Requested-With, Content-Type, Accept"
+  );
   next();
 });
 
@@ -63,8 +66,7 @@ app.use(
       maxAge: 1000 * 60 * 60 * 12, // 12 hours
       secure: process.env.NODE_ENV === "production", // Only set cookies over HTTPS in production
       httpOnly: true, // Prevents JavaScript access to the cookie
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // Adjusts for cross-site requests
-      domain: process.env.NODE_ENV === "production" ? ".messaging-app-sigma-seven.vercel.app" : "localhost",
+      sameSite: "lax", // Adjusts for cross-site requests
     },
   })
 );
