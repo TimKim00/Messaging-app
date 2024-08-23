@@ -46,6 +46,8 @@ exports.createChatroom = [
       if (!existingUser) return res.status(404).json("Invalid users");
     });
 
+    console.log(users);
+
     // Check if room already exists
     const roomExists = await Room.findOne({ users: users }).exec();
     if (roomExists) {
@@ -53,6 +55,8 @@ exports.createChatroom = [
         .status(200)
         .json({ message: "Room already exists.", room: roomExists });
     }
+
+    console.log("hi");
 
     const newRoom = new Room({
       ...roomInfo,

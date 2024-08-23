@@ -6,11 +6,6 @@ const useCreateChatroom = () => {
   const [isLoading, setIsLoading] = useState(false);
   const [roomId, setRoomId] = useState(null);
 
-  const roomsEqual = (arr1, arr2) => {
-    if (arr1.length !== arr2.length) return false;
-    return arr1.every((value, index) => value._id === arr2[index]);
-  }
-
   const createRoom = async (roomInfo) => {
     setIsLoading(true);
     setError(null);
