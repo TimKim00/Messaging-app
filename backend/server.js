@@ -67,7 +67,8 @@ app.use(passport.session());
 
 app.use((req, res, next) => {
   console.log(`request: ${JSON.stringify(req.headers)}`);
-  console.log(`response: ${JSON.stringify(res)}`);
+  // console.log(`response: ${JSON.stringify()}`);
+  
   next();
 })
 
