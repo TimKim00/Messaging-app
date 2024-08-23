@@ -198,9 +198,6 @@ export default function MessageArea({
                         "EEEE, MMMM d, yyyy"
                       );
 
-                      console.log(lastMessage.current);
-                      console.log(recentDate.current);
-
                       const reformat = recentDate.current !== formattedDate;
                       if (reformat) recentDate.current = formattedDate;
 
