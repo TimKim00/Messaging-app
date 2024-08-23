@@ -15,8 +15,10 @@ import { useEffect } from "react";
 const Navbar = () => {
   const { user } = useUserContext();
   const [toggledIcon, setToggledIcon] = useState(
-    String(window.location.pathname).substring(1)
+    String(window.location.pathname).match(/[^/]+/g)[1]
   );
+
+  console.log(String(window.location.pathname).match(/[^/]+/g)[1]);
   const { error, logout } = useLogout();
 
   const handleToggle = (iconId) => {
@@ -32,10 +34,10 @@ const Navbar = () => {
   };
 
   useEffect(() => {
-    setToggledIcon(String(window.location.pathname).substring(1));
-  }, [window.location.pathname])
-
-
+    setToggledIcon(
+      String(window.location.pathname).match(/[^/]+/g)[1]
+    );
+  }, [window.location.pathname]);
 
   const icons = [
     { id: "chat", label: "Chat", icon: Message, redirect: "./chat" },

@@ -9,8 +9,10 @@ const dotenv = require("dotenv");
 dotenv.config();
 const User = require("./src/models/user");
 
-// const FRONTEND_ADDRESS = "http://localhost:5173";
-const FRONTEND_ADDRESS = "https://messaging-app-sigma-seven.vercel.app";
+const FRONTEND_ADDRESS =
+  process.env.NODE_ENV === "production"
+    ? "https://messaging-app-sigma-seven.vercel.app"
+    : "http://localhost:5173";
 
 const app = express();
 
@@ -45,6 +47,13 @@ if (app.get("env") === "production") {
   app.set("trust proxy", 1); // trust first proxy
 }
 
+app.use((req, res, next) => {
+  res.header('Access-Control-Allow-Origin', FRONTEND_ADDRESS);
+  res.header('Access-Control-Allow-Credentials', 'true');
+  res.header('Access-Control-Allow-Headers', 'Origin, X-Requested-With, Content-Type, Accept');
+  next();
+});
+
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -55,6 +64,7 @@ app.use(
       secure: process.env.NODE_ENV === "production", // Only set cookies over HTTPS in production
       httpOnly: true, // Prevents JavaScript access to the cookie
       sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // Adjusts for cross-site requests
+      domain: process.env.NODE_ENV === "production" ? ".messaging-app-sigma-seven.vercel.app" : "localhost",
     },
   })
 );

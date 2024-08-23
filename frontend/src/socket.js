@@ -1,6 +1,9 @@
 import { io } from "socket.io-client";
 
-const URL = "https://messaging-app-drj8.onrender.com";
+const URL =
+  import.meta.env.MODE === "production"
+    ? "https://messaging-app-sigma-seven.vercel.app"
+    : "http://localhost:3000";
 
 export const socket = io(URL, {
   secure: true,

@@ -1,8 +1,11 @@
-// const rootPath = "http://localhost:5173";
-// const fetchRootPath = "http://localhost:3000";
-
-const rootPath = "https://messaging-app-sigma-seven.vercel.app";
-const fetchRootPath = "https://messaging-app-drj8.onrender.com";
+const rootPath =
+  import.meta.env.MODE === "production"
+    ? "https://messaging-app-sigma-seven.vercel.app"
+    : "http://localhost:5173";
+const fetchRootPath =
+  import.meta.env.MODE === "production"
+    ? "https://messaging-app-drj8.onrender.com"
+    : "http://localhost:3000";
 
 const getPath = (type, demo = false) => {
   let path = rootPath;
@@ -25,13 +28,13 @@ const fetchPath = (path) => {
 
 const fetchWithCredentials = async (url, options = {}) => {
   const defaultOptions = {
-    credentials: 'include', // Include credentials (cookies)
+    credentials: "include", // Include credentials (cookies)
     withCredentials: true,
     headers: {
-      'Content-Type': 'application/json',
+      "Content-Type": "application/json",
       withCredentials: true,
-      ...options.headers
-    }
+      ...options.headers,
+    },
   };
   const mergedOptions = { ...defaultOptions, ...options };
   const response = await fetch(url, mergedOptions);
