@@ -41,12 +41,6 @@ app.use(errorHandler);
 
 // Configuration
 connectDB();
-
-// Session authentication
-if (app.get("env") === "production") {
-  app.set("trust proxy", 1); // trust first proxy
-}
-
 app.use(
   session({
     secret: process.env.SESSION_SECRET,
@@ -57,6 +51,7 @@ app.use(
       secure: process.env.NODE_ENV === "production", // Only set cookies over HTTPS in production
       httpOnly: true, // Prevents JavaScript access to the cookie
       sameSite: "lax", // Adjusts for cross-site requests
+      domain: process.env.NODE_ENV === "production" ? ".onrender.com" : null,
     },
   })
 );
