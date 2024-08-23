@@ -40,6 +40,18 @@ exports.createChatroom = [
     const { roomInfo } = req.body;
     const { users } = roomInfo.users;
 
+    // Check if users exist
+    const userExists = await User.find({ _id: users }).exec();
+    if (userExists.length !== users.length) {
+      return res.status(404).json("Invalid page");
+    }
+
+    // Check if room already exists
+    const roomExists = await Room.findOne({ users: users }).exec();
+    if (roomExists) {
+      return res.status(200).json({ message: "Room already exists.", room: roomExists });
+    }
+
     const newRoom = new Room({
       ...roomInfo,
     });
