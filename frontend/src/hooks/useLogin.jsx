@@ -33,8 +33,8 @@ const useLogin = () => {
       dispatch({ type: "AUTH_VALID", payload: userObject, expireTime: new Date().getTime });
       setError(null);
 
-      // navigate("/fweechat");
-      // navigate(0);
+      navigate("/fweechat");
+      navigate(0);
     }
   };
   return { error, login, isLoading, setIsLoading, setError };
