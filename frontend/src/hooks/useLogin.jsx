@@ -20,6 +20,8 @@ const useLogin = () => {
     });
 
     const json = await response.json();
+    console.log(response);
+    console.log(json);
 
     setIsLoading(false);
     if (!response.ok) {
