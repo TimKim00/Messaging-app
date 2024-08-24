@@ -80,6 +80,19 @@ app.get("/auth-status", (req, res) => {
   }
 });
 
+
+// Test cookie
+app.get('/set-test-cookie', (req, res) => {
+  res.cookie('testCookie', 'testValue', {
+    httpOnly: true,
+    secure: process.env.NODE_ENV === 'production',
+    sameSite: 'None',
+    domain: '.onrender.com',
+    path: '/',
+  });
+  res.send('Test cookie set');
+});
+
 // io connection
 let users = [];
 
