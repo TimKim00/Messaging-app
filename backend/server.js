@@ -84,9 +84,9 @@ app.get("/auth-status", (req, res) => {
 // Test cookie
 app.get('/set-test-cookie', (req, res) => {
   res.cookie('testCookie', 'testValue', {
-    httpOnly: true,
+    httpOnly: false,
     secure: process.env.NODE_ENV === 'production',
-    sameSite: 'None',
+    sameSite: 'Lax',
     domain: '.onrender.com',
     path: '/',
   });
