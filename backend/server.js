@@ -2,6 +2,7 @@
 const express = require("express");
 const cors = require("cors");
 const session = require("express-session");
+const cookieSession = require("cookie-session");
 const passport = require("./src/configs/passport.config");
 const { createServer } = require("node:http");
 const { Server } = require("socket.io");
@@ -48,7 +49,7 @@ if (app.get("env") === "production") {
 }
 
 app.use(
-  express.cookieSession({
+  cookieSession({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
