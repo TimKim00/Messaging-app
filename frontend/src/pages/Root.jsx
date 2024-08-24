@@ -27,30 +27,25 @@ export default function Root() {
     socket.connect();
 
     socket.on("connect", () => {
-      console.log("Connected to server");
       socket.emit("addUser", user);
     });
 
     socket.on("getUser", (users) => {
       setOnlineUsers(users);
     });
-
-    socket.on("disconnect", () => {
-      console.log("Disconnected from server");
-    });
   }, [user]);
 
   useEffect(() => {
     // Poll authentication
     pollAuth();
-  }, [])
+  }, []);
 
   if (!authReady) {
     return <Loading dim={16} />;
   }
 
-  if (!user || isLoading && error) {
-    return <Navigate to="/login" replace={true} reloadDocument/>;
+  if (!user || (isLoading && error)) {
+    return <Navigate to="/login" replace={true} reloadDocument />;
   }
 
   return (
@@ -61,7 +56,7 @@ export default function Root() {
       </section>
       {/* Main content */}
       <section className="flex-grow overflow-auto">
-        <Outlet context={onlineUsers}/>
+        <Outlet context={onlineUsers} />
       </section>
     </div>
   );

@@ -32,7 +32,7 @@ const useLogin = () => {
       setError(null);
 
       navigate("/fweechat");
-      navigate(0);
+      // navigate(0);
     }
   };
   return { error, login, isLoading, setIsLoading, setError };
