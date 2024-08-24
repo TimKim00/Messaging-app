@@ -2,7 +2,6 @@
 const express = require("express");
 const cors = require("cors");
 const session = require("express-session");
-const cookieSession = require("cookie-session");
 const passport = require("./src/configs/passport.config");
 const { createServer } = require("node:http");
 const { Server } = require("socket.io");
@@ -49,7 +48,7 @@ if (app.get("env") === "production") {
 }
 
 app.use(
-  cookieSession({
+  session({
     secret: process.env.SESSION_SECRET,
     resave: false,
     saveUninitialized: false,
@@ -57,7 +56,7 @@ app.use(
       maxAge: 1000 * 60 * 60 * 12, // 12 hours
       secure: process.env.NODE_ENV === "production", // Only set cookies over HTTPS in production
       httpOnly: true, // Prevents JavaScript access to the cookie
-      sameSite: process.env.NODE_ENV === "production" ? "none" : "lax", // Adjusts for cross-site requests
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // Adjusts for cross-site requests
       domain: process.env.NODE_ENV === "production" ? ".onrender.com" : null,
     },
   })
