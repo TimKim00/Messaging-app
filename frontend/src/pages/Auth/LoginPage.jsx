@@ -27,7 +27,7 @@ const LoginPage = () => {
     if (isLoading) {
       // Set a timeout to trigger an error if loading takes too long
       timeout = setTimeout(() => {
-        setError("Login timed out. Please try again.");
+        setError("Booting up server... This may take a minute or two.");
         setIsLoading(false);
       }, 5000); // 5 seconds timeout
     }
@@ -100,7 +100,7 @@ const LoginPage = () => {
               <span>Log In</span>
             )}
           </button>
-          {error ? <Error error={error} /> : <></>}
+          {error ? <Error error={error} errorColor={"text-gray-400"} errorSize={"text-sm"}/> : <></>}
         </form>
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">
