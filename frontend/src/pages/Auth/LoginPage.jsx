@@ -100,7 +100,7 @@ const LoginPage = () => {
               <span>Log In</span>
             )}
           </button>
-          {error ? <Error error={error} errorColor={"text-gray-400"} errorSize={"text-sm"}/> : <></>}
+          {error ? <Error error={error} errorColor={"text-gray-400"} errorSize={"text-sm font-light"}/> : <></>}
         </form>
         <div className="mt-6 text-center">
           <p className="text-sm text-gray-600">

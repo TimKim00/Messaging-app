@@ -23,10 +23,10 @@ const useLogin = () => {
     console.log(response);
     console.log(json);
 
-    setIsLoading(false);
     if (!response.ok) {
       setError(json.message);
       dispatch({ type: "AUTH_INVALID" });
+      setIsLoading(false);
     } else {
       const userObject = JSON.stringify(json.user);
       localStorage.setItem("user", userObject);
@@ -34,6 +34,8 @@ const useLogin = () => {
       setError(null);
 
       navigate("/fweechat");
+
+      setIsLoading(false);  
       navigate(0);
     }
   };
