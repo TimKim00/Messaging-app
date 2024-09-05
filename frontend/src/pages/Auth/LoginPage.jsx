@@ -46,7 +46,7 @@ const LoginPage = () => {
         <div className="text-center mb-8">
           <img src={Logo} alt="logo" className="mx-auto h-24 w-auto" />
           <h1 className="text-2xl font-bold">
-            <span>Log into Fweechat</span>
+            <span>Log into Flashchat</span>
           </h1>
         </div>
         {/* Forms */}

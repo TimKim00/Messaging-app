@@ -1,6 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
-// import backgroundImage from "./../../assets/backgroundImage.jpg"; // Replace with your actual background image
+import backgroundImage from "../assets/defaultBackground.jpg"; // Replace with your actual background image
 
 export default function HomePage() {
   return (
@@ -8,19 +8,19 @@ export default function HomePage() {
       {/* Background Image */}
       <div
         className="absolute inset-0 bg-cover bg-center"
-        // style={{
-        //   backgroundImage: `url(${backgroundImage})`,
-        // }}
+        style={{
+          backgroundImage: `url(${backgroundImage})`,
+        }}
       ></div>
       {/* Overlay */}
-      <div className="absolute inset-0 bg-black opacity-50"></div>
+      <div className="absolute inset-0 bg-indigo-600 opacity-10"></div>
       {/* Content */}
       <div className="relative z-10 flex flex-col items-center justify-center h-full text-center text-white">
         <h1 className="text-5xl md:text-7xl font-bold mb-6 animate-fade-in">
-          Welcome to Our Platform
+          Welcome to Flashchat
         </h1>
         <p className="text-lg md:text-xl mb-12 animate-fade-in delay-1s">
-          Discover, connect, and grow with our amazing community.
+          Discover and connect with our amazing community in a flash!
         </p>
         <div className="flex space-x-4">
           <Link
@@ -38,7 +38,7 @@ export default function HomePage() {
         </div>
       </div>
       {/* Footer */}
-      <div className="absolute bottom-4 left-0 right-0 text-center text-gray-400">
+      <div className="absolute bottom-4 left-0 right-0 text-center text-white">
         <p>© 2024 TimKim00. All rights reserved.</p>
       </div>
     </div>
