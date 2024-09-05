@@ -156,7 +156,7 @@ export default function Profile({ user = "current" }) {
                         )) ||
                         (roomId && (
                           <Navigate
-                            to={`/fweechat/chat`}
+                            to={`/flashchat/chat`}
                             replace={true}
                             reloadDocument
                           ></Navigate>

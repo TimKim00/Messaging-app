@@ -33,7 +33,7 @@ const useLogin = () => {
       dispatch({ type: "AUTH_VALID", payload: userObject, expireTime: new Date().getTime });
       setError(null);
 
-      navigate("/fweechat");
+      navigate("/flashchat");
 
       setIsLoading(false);  
       navigate(0);

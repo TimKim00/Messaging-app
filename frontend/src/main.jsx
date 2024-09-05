@@ -20,23 +20,23 @@ const router = createBrowserRouter(
       element: <Homepage />
     },
     {
-      path: "/fweechat",
+      path: "/flashchat",
       element: <Root />,
       children: [
         {
-          path: "/fweechat",
+          path: "/flashchat",
           element: <Dashboard />
         },
         {
-          path: "/fweechat/chat",
+          path: "/flashchat/chat",
           element: <Chatpage />,
         },
         {
-          path: "/fweechat/profile",
+          path: "/flashchat/profile",
           element: <ProfilePage />
         },
         {
-          path: "/fweechat/users",
+          path: "/flashchat/users",
           element: <UserPage />
         }
       ],
@@ -50,7 +50,7 @@ const router = createBrowserRouter(
       element: <SignupPage />
     }
   ]
-  // ,{ basename: "/fweechat" }
+  // ,{ basename: "/flashchat" }
 );
 
 ReactDOM.createRoot(document.getElementById("root")).render(
