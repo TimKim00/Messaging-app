@@ -18,7 +18,6 @@ const Navbar = () => {
     String(window.location.pathname).match(/[^/]+/g)[1]
   );
 
-  console.log(String(window.location.pathname).match(/[^/]+/g)[1]);
   const { error, logout } = useLogout();
 
   const handleToggle = (iconId) => {
