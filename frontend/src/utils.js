@@ -30,7 +30,6 @@ const fetchWithCredentials = async (url, options = {}) => {
   const defaultOptions = {
     credentials: "include", // Include credentials (cookies)
     withCredentials: true,
-    mode: "cors",
     headers: {
       "Content-Type": "application/json",
       withCredentials: true,

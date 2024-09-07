@@ -57,13 +57,18 @@ app.use(
       secure: process.env.NODE_ENV === "production", // Only set cookies over HTTPS in production
       httpOnly: true, // Prevents JavaScript access to the cookie
       sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // Adjusts for cross-site requests
-      domain: process.env.NODE_ENV === "production" && ".onrender.com",
     },
   })
 );
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "*");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
 
 // Routes
 app.use("/", indexRouter);
