@@ -43,9 +43,8 @@ app.use(errorHandler);
 connectDB();
 
 // Session authentication
-if (app.get("env") === "production") {
-  app.set("trust proxy", 1); // trust first proxy
-}
+app.use(passport.initialize());
+app.use(passport.session());
 
 app.use(
   session({
@@ -56,13 +55,10 @@ app.use(
       maxAge: 1000 * 60 * 60 * 12, // 12 hours
       secure: process.env.NODE_ENV === "production", // Only set cookies over HTTPS in production
       httpOnly: true, // Prevents JavaScript access to the cookie
-      sameSite: process.env.NODE_ENV === "production" ? "Lax" : "Lax", // Adjusts for cross-site requests
+      sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // Adjusts for cross-site requests
     },
   })
 );
-
-app.use(passport.initialize());
-app.use(passport.session());
 
 // Routes
 app.use("/", indexRouter);
