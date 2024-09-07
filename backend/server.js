@@ -64,6 +64,12 @@ app.use(
 app.use(passport.initialize());
 app.use(passport.session());
 
+app.use(function(req, res, next) {
+  res.header("Access-Control-Allow-Origin", "https://messaging-app-2hys.onrender.com");
+  res.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+  next();
+});
+
 // Routes
 app.use("/", indexRouter);
 app.use("/", authRouter);
