@@ -72,7 +72,7 @@ app.use("/chat", chatRouter);
 
 // Dev test routers
 app.get("/auth-status", (req, res) => {
-  if (req.user) {
+  if (req.isAuthenticated) {
     return res.json({ authenticated: true, user: req.user });
   } else {
     return res.json({ authenticated: false });
