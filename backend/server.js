@@ -1,5 +1,6 @@
 // Libraries
 const express = require("express");
+const {  createProxyMiddleware  } = require('http-proxy-middleware');
 const cors = require("cors");
 const session = require("express-session");
 const passport = require("./src/configs/passport.config");
