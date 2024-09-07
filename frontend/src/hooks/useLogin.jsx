@@ -29,7 +29,9 @@ const useLogin = () => {
       setIsLoading(false);
     } else {
       const userObject = JSON.stringify(json.user);
+      const token = json.token;
       localStorage.setItem("user", userObject);
+      localStorage.setItem('token', token);
       dispatch({ type: "AUTH_VALID", payload: userObject, expireTime: new Date().getTime });
       setError(null);
 

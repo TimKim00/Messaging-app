@@ -16,7 +16,7 @@ export default function Root() {
   const { user, authReady } = useUserContext();
   const [onlineUsers, setOnlineUsers] = useState([]);
 
-  const { error, pollAuth, isLoading } = usePollAuth();
+  // const { error, pollAuth, isLoading } = usePollAuth();
 
   useEffect(() => {
     if (!user) {
@@ -35,18 +35,18 @@ export default function Root() {
     });
   }, [user]);
 
-  useEffect(() => {
-    // Poll authentication
-    pollAuth();
-  }, []);
+  // useEffect(() => {
+  //   // Poll authentication
+  //   pollAuth();
+  // }, []);
 
   if (!authReady) {
     return <Loading dim={16} />;
   }
 
-  if (!user || (isLoading && error)) {
-    return <Navigate to="/login" replace={true} reloadDocument />;
-  }
+  // if (!user || (isLoading && error)) {
+  //   return <Navigate to="/login" replace={true} reloadDocument />;
+  // }
 
   return (
     <div className="flex h-lvh z-0">

@@ -26,6 +26,7 @@ const useLogout = () => {
       setError(json.message);
     } else {
       localStorage.removeItem("user");
+      localStorage.removeItem("token");
       socket.disconnect();
       
       dispatch({ type: "AUTH_LOGOUT" });

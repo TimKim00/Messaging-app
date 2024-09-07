@@ -25,6 +25,7 @@ const useSignup = () => {
     if (response.ok) {
       const userObject = JSON.stringify(json.user);
       localStorage.setItem("user", userObject);
+      localStorage.setItem("token", json.token);
       dispatch({ type: "AUTH_VALID", payload: userObject });
       setError(null);
 
