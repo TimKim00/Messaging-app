@@ -28,6 +28,7 @@ const fetchPath = (path) => {
 
 const fetchWithCredentials = async (url, options = {}) => {
   const defaultOptions = {
+    user: JSON.parse(localStorage.getItem("user")),
     credentials: "include", // Include credentials (cookies)
     withCredentials: true,
     headers: {
