@@ -1,5 +1,6 @@
 // Libraries
 const express = require("express");
+const {    } = require('http-proxy-middleware');
 const cors = require("cors");
 const session = require("express-session");
 const passport = require("./src/configs/passport.config");
@@ -57,13 +58,18 @@ app.use(
       secure: process.env.NODE_ENV === "production", // Only set cookies over HTTPS in production
       httpOnly: true, // Prevents JavaScript access to the cookie
       sameSite: process.env.NODE_ENV === "production" ? "None" : "Lax", // Adjusts for cross-site requests
-      domain: process.env.NODE_ENV === "production" && ".onrender.com",
     },
   })
 );
 
 app.use(passport.initialize());
 app.use(passport.session());
+
+app.use('/api', createProxyMiddleware({
+  target: 'https://messaging-app-backend-ywju.onrender.com',
+  changeOrigin: true,
+  credentials: 'include',
+}));
 
 // Routes
 app.use("/", indexRouter);

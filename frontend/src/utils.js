@@ -23,7 +23,7 @@ const getPath = (type, demo = false) => {
 };
 
 const fetchPath = (path) => {
-  return fetchRootPath + path;
+  return fetchRootPath + "/api" + path;
 };
 
 const fetchWithCredentials = async (url, options = {}) => {
