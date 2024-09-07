@@ -43,8 +43,9 @@ app.use(errorHandler);
 connectDB();
 
 // Session authentication
-app.use(passport.initialize());
-app.use(passport.session());
+if (app.get("env") === "production") {
+  app.set("trust proxy", 1); // trust first proxy
+}
 
 app.use(
   session({
@@ -59,6 +60,9 @@ app.use(
     },
   })
 );
+
+app.use(passport.initialize());
+app.use(passport.session());
 
 // Routes
 app.use("/", indexRouter);
