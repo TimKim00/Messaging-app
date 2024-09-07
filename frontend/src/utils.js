@@ -28,7 +28,7 @@ const fetchPath = (path) => {
 
 const fetchWithCredentials = async (url, options = {}) => {
   const defaultOptions = {
-    credentials: "include", // Include credentials (cookies)
+    // credentials: "include", // Include credentials (cookies)
     withCredentials: true,
     headers: {
       "Content-Type": "application/json",
