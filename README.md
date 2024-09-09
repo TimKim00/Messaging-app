@@ -1,6 +1,6 @@
 # Messaging-app
 
-The Odin Project style messaging app implementation
+The Odin Project style messaging app implementation. View [site](https://messaging-app-2hys.onrender.com/).
 
 ## Features
 1. Authorization/authentication
