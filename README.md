@@ -203,19 +203,6 @@ We need a global context of a user authentication information. This context will
 
 **UserContext**
 Wraps around the App.
-### Components
-#### NavBar
-A Navigation bar. The 
-
-#### NavIcons
-
-#### IconImages
-
-#### Chatbox
-
-
-#### ChatboxInfo
-
 
 ### Pages
 #### Root
